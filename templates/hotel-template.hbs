@@ -6,9 +6,102 @@
     <title>{{hotel_name}} - Luxury Hotel | SuitedStay</title>
     <meta name="description" content="{{hotel_description}}">
     
-    <!-- FAQ Schema -->
+    <!-- Schema Markup for SEO -->
     <script type="application/ld+json">
-    {{{schema_data}}}
+    {
+        "@context": "https://schema.org",
+        "@type": ["Hotel", "LodgingBusiness"],
+        "name": "{{hotel_name}}",
+        "description": "{{hotel_description}}",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "{{address}}",
+            "addressLocality": "{{neighbourhood}}"
+        },
+        {{#if star_rating_numeric}}
+        "starRating": {
+            "@type": "Rating",
+            "ratingValue": "{{star_rating_numeric}}"
+        },
+        {{/if}}
+        {{#if phone_number}}
+        "telephone": "{{phone_number}}",
+        {{/if}}
+        {{#if website}}
+        "url": "{{website}}",
+        {{/if}}
+        {{#if hero_photo}}
+        "image": "{{hero_photo}}",
+        {{/if}}
+        "checkinTime": "{{check_in}}",
+        "checkoutTime": "{{check_out}}",
+        {{#if price_range}}
+        "priceRange": "{{price_range}}",
+        {{/if}}
+        "amenityFeature": [
+            {{#each tags}}
+            {
+                "@type": "LocationFeatureSpecification",
+                "name": "{{this}}"
+            }{{#unless @last}},{{/unless}}
+            {{/each}}
+        ]
+        {{#if faq_1}}
+        ,
+        "mainEntity": [
+            {{#if faq_1}}
+            {
+                "@type": "Question",
+                "name": "{{faq_1}}",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{answer_1}}"
+                }
+            }{{#if faq_2}},{{/if}}
+            {{/if}}
+            {{#if faq_2}}
+            {
+                "@type": "Question", 
+                "name": "{{faq_2}}",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{answer_2}}"
+                }
+            }{{#if faq_3}},{{/if}}
+            {{/if}}
+            {{#if faq_3}}
+            {
+                "@type": "Question",
+                "name": "{{faq_3}}",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{answer_3}}"
+                }
+            }{{#if faq_4}},{{/if}}
+            {{/if}}
+            {{#if faq_4}}
+            {
+                "@type": "Question",
+                "name": "{{faq_4}}",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{answer_4}}"
+                }
+            }{{#if faq_5}},{{/if}}
+            {{/if}}
+            {{#if faq_5}}
+            {
+                "@type": "Question",
+                "name": "{{faq_5}}",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{answer_5}}"
+                }
+            }
+            {{/if}}
+        ]
+        {{/if}}
+    }
     </script>
     
     <style>
@@ -495,10 +588,10 @@
             text-align: center;
         }
         
-        /* Content Sections with Better Separation */
+        /* Content Sections with Reduced Spacing */
         .content-section {
-            margin: 3rem 0;
-            padding: 2rem 0;
+            margin: 1.5rem 0;
+            padding: 1rem 0;
             border-bottom: 1px solid #e5e7eb;
         }
         
@@ -626,11 +719,105 @@
             margin-bottom: 0.75rem;
         }
         
+        /* Location Section Styling */
+        .location-map {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .location-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .map-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            color: #3b82f6;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .location-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .location-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .location-item:last-child {
+            border-bottom: none;
+        }
+
+        .location-label {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .location-value {
+            color: #6b7280;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .location-button {
+            background: #f8f9fa;
+            color: #374151;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .location-button:hover {
+            background: #f1f3f4;
+            border-color: #d1d5db;
+        }
+
+        .location-button.primary {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .location-button.primary:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        
         .faq-answer {
             color: #374151;
             line-height: 1.6;
         }
-        
+
         @media (min-width: 640px) {
             .container {
                 padding: 0 1.5rem;
@@ -690,6 +877,25 @@
 
         <!-- Main Content -->
         <div class="container main-content">
+            <!-- Badges -->
+            <div class="badges">
+                {{#if claimed_status}}
+                <div class="claimed-badge">
+                    ✓ Premium Listing
+                </div>
+                {{/if}}
+                <div class="badge badge-gold">
+                    <span class="badge-dot"></span>
+                    Ultra-Luxury
+                </div>
+                <div class="badge badge-green">
+                    <svg style="width: 1rem; height: 1rem; margin-right: 0.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                    Exceptional Experience
+                </div>
+            </div>
+
             <!-- New Header Section -->
             <div class="hotel-header">
                 <div class="hotel-info">
@@ -741,25 +947,6 @@
                 <a href="#details-section" class="nav-tab" onclick="scrollToSection('details-section')">Details</a>
                 <a href="#location-section" class="nav-tab" onclick="scrollToSection('location-section')">Location</a>
                 <a href="#faq-section" class="nav-tab" onclick="scrollToSection('faq-section')">FAQs</a>
-            </div>
-
-            <!-- Badges -->
-            <div class="badges">
-                {{#if claimed_status}}
-                <div class="claimed-badge">
-                    ✓ Premium Listing
-                </div>
-                {{/if}}
-                <div class="badge badge-gold">
-                    <span class="badge-dot"></span>
-                    Ultra-Luxury
-                </div>
-                <div class="badge badge-green">
-                    <svg style="width: 1rem; height: 1rem; margin-right: 0.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                    </svg>
-                    Exceptional Experience
-                </div>
             </div>
 
             <!-- Hero Image -->
@@ -839,8 +1026,6 @@
             <!-- Reviews & Best Times Section -->
             {{#if public_review_sentiment}}
             <section class="content-section">
-                <h2 class="section-title">Guest Reviews</h2>
-                
                 <div class="sentiment-box">
                     <div class="sentiment-title">Public Review Sentiment</div>
                     <div class="sentiment-text">Based on {{reviews_count}} Google Reviews</div>
@@ -858,48 +1043,130 @@
 
             <!-- Location & Contact Section -->
             <section class="content-section" id="location-section">
-                <h2 class="section-title">Location & Contact</h2>
-                <div class="info-card">
-                    <h3>📍 Location & Contact</h3>
-                    <p><strong>Address:</strong> {{address}}</p>
-                    <p><strong>Neighbourhood:</strong> {{neighbourhood}}</p>
-                    {{#if phone_number}}
-                    <p><strong>Phone:</strong> <a href="{{phone_url}}">{{phone_number}}</a></p>
-                    {{/if}}
-                    {{#if website}}
-                    <p><strong>Website:</strong> <a href="{{website}}" target="_blank">Visit Hotel Website</a></p>
-                    {{/if}}
-                    <p><strong>Check-in:</strong> {{check_in_time}} | <strong>Check-out:</strong> {{check_out_time}}</p>
+                <h2 class="section-title">Location</h2>
+                
+                <!-- Map -->
+                {{#if directions_url}}
+                <div class="location-map">
+                    <iframe src="{{directions_url}}" allowfullscreen loading="lazy"></iframe>
+                    <a href="{{directions_url}}" target="_blank" class="map-button">View larger map</a>
                 </div>
-            </section>
+                {{/if}}
 
-            <!-- Getting There Section -->
-            {{#if getting_there}}
-            <section class="content-section">
-                <h2 class="section-title">Getting There</h2>
-                <div class="info-card">
-                    <h3>🚗 Getting There</h3>
-                    <p>{{getting_there}}</p>
-                    <p style="margin-top: 1rem;">
-                        <a href="{{google_map_url}}" target="_blank" style="color: #c5a46d; font-weight: 500;">
-                            View on Google Maps →
+                <!-- Location Information -->
+                <div class="location-info">
+                    <div class="location-item">
+                        <div>
+                            <div class="location-label">Neighborhood</div>
+                            <div class="location-value">{{neighbourhood}}</div>
+                        </div>
+                    </div>
+
+                    <div class="location-item">
+                        <div>
+                            <div class="location-label">Address</div>
+                            <div class="location-value">{{address}}</div>
+                        </div>
+                        {{#if address_google_maps_link}}
+                        <a href="{{address_google_maps_link}}" target="_blank" class="location-button">
+                            Get Directions
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
                         </a>
-                    </p>
+                        {{/if}}
+                    </div>
+
+                    {{#if website}}
+                    <div class="location-item">
+                        <div>
+                            <div class="location-label">Website</div>
+                            <div class="location-value">{{website}}</div>
+                        </div>
+                        {{#if book_link}}
+                        <a href="{{book_link}}" target="_blank" class="location-button primary">
+                            Visit Website
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                        {{/if}}
+                    </div>
+                    {{/if}}
+
+                    {{#if phone_number}}
+                    <div class="location-item">
+                        <div>
+                            <div class="location-label">Phone</div>
+                            <div class="location-value">{{phone_number}}</div>
+                        </div>
+                        {{#if phone_url}}
+                        <a href="{{phone_url}}" class="location-button">
+                            Call
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                        </a>
+                        {{/if}}
+                    </div>
+                    {{/if}}
+
+                    {{#if getting_there}}
+                    <div class="location-item">
+                        <div>
+                            <div class="location-label">Getting There</div>
+                            <div class="location-value">{{getting_there}}</div>
+                        </div>
+                    </div>
+                    {{/if}}
                 </div>
             </section>
-            {{/if}}
 
             <!-- Hotel Features -->
             {{#if tags}}
             <section class="content-section">
-                <h2 class="section-title">Hotel Features</h2>
                 <div class="info-card">
-                    <h3>✨ Amenities & Features</h3>
+                    <h3>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        Amenities
+                    </h3>
                     <div class="tags">
                         {{#each tags}}
                         <span class="tag">{{this}}</span>
                         {{/each}}
                     </div>
+                </div>
+
+                <div class="info-card" style="margin-top: 1rem;">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h3 style="margin: 0;">Check-in Time</h3>
+                    </div>
+                    <p style="margin: 0; font-size: 1rem; color: #374151;">{{check_in}}</p>
+                </div>
+
+                <div class="info-card" style="margin-top: 1rem;">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h3 style="margin: 0;">Check-out Time</h3>
+                    </div>
+                    <p style="margin: 0; font-size: 1rem; color: #374151;">{{check_out}}</p>
+                </div>
+
+                <div class="info-card" style="margin-top: 1rem;">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                        </svg>
+                        <h3 style="margin: 0;">Price per Night</h3>
+                    </div>
+                    <p style="margin: 0; font-size: 1rem; color: #374151;">{{price_indicator}} • {{price_range}}</p>
                 </div>
             </section>
             {{/if}}
@@ -908,35 +1175,45 @@
             {{#if faq_1}}
             <section class="content-section" id="faq-section">
                 <h2 class="section-title">Frequently Asked Questions</h2>
-                <div class="faq-section">
+                <div class="faq-section" itemscope itemtype="https://schema.org/FAQPage">
                     {{#if faq_1}}
-                    <div class="faq-item">
-                        <h3 class="faq-question">{{faq_1}}</h3>
-                        <p class="faq-answer">{{answer_1}}</p>
+                    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="faq-question" itemprop="name">{{faq_1}}</h3>
+                        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p class="faq-answer" itemprop="text">{{answer_1}}</p>
+                        </div>
                     </div>
                     {{/if}}
                     {{#if faq_2}}
-                    <div class="faq-item">
-                        <h3 class="faq-question">{{faq_2}}</h3>
-                        <p class="faq-answer">{{answer_2}}</p>
+                    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="faq-question" itemprop="name">{{faq_2}}</h3>
+                        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p class="faq-answer" itemprop="text">{{answer_2}}</p>
+                        </div>
                     </div>
                     {{/if}}
                     {{#if faq_3}}
-                    <div class="faq-item">
-                        <h3 class="faq-question">{{faq_3}}</h3>
-                        <p class="faq-answer">{{answer_3}}</p>
+                    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="faq-question" itemprop="name">{{faq_3}}</h3>
+                        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p class="faq-answer" itemprop="text">{{answer_3}}</p>
+                        </div>
                     </div>
                     {{/if}}
                     {{#if faq_4}}
-                    <div class="faq-item">
-                        <h3 class="faq-question">{{faq_4}}</h3>
-                        <p class="faq-answer">{{answer_4}}</p>
+                    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="faq-question" itemprop="name">{{faq_4}}</h3>
+                        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p class="faq-answer" itemprop="text">{{answer_4}}</p>
+                        </div>
                     </div>
                     {{/if}}
                     {{#if faq_5}}
-                    <div class="faq-item">
-                        <h3 class="faq-question">{{faq_5}}</h3>
-                        <p class="faq-answer">{{answer_5}}</p>
+                    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="faq-question" itemprop="name">{{faq_5}}</h3>
+                        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p class="faq-answer" itemprop="text">{{answer_5}}</p>
+                        </div>
                     </div>
                     {{/if}}
                 </div>
