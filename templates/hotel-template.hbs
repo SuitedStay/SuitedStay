@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{hotel_name}} - Luxury Hotel | SuitedStay</title>
+    <meta name="description" content="{{hotel_description}}">
+    
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {{{schema_data}}}
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #374151;
+            background: #ffffff;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4rem;
+            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+            text-decoration: none;
+        }
+        
+        .logo .gold {
+            color: #c5a46d;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .btn-primary {
+            background: #111827;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background: #374151;
+        }
+        
+        .breadcrumb {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.75rem 0;
+            display: none;
+        }
+        
+        @media (min-width: 640px) {
+            .breadcrumb {
+                display: block;
+            }
+        }
+        
+        .breadcrumb nav {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+            overflow-x: auto;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .breadcrumb a {
+            color: #6b7280;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        
+        .breadcrumb a:hover {
+            color: #c5a46d;
+        }
+        
+        .breadcrumb .current {
+            background: #f9fafb;
+            color: #111827;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .badges {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            display: flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .badge-gold {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-green {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-premium {
+            background: #1f2937;
+            color: #f9fafb;
+        }
+        
+        .badge-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .badge-gold .badge-dot {
+            background: #c5a46d;
+        }
+        
+        .claimed-badge {
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .title-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+        }
+        
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #111827;
+            padding-right: 0.5rem;
+        }
+        
+        .rating-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            font-size: 1.125rem;
+            color: white;
+            background: #c5a46d;
+            flex-shrink: 0;
+        }
+        
+        .star-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .star {
+            color: #fbbf24;
+            font-size: 1.25rem;
+        }
+        
+        .address-link {
+            color: #c5a46d;
+            text-decoration: none;
+            font-size: 1.125rem;
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+        
+        .address-link:hover {
+            text-decoration: underline;
+        }
+        
+        .status-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .status-open {
+            display: flex;
+            align-items: center;
+            color: #059669;
+            font-weight: 500;
+        }
+        
+        .status-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            background: #10b981;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .venue-image {
+            margin: 0 -2rem 2rem -2rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .venue-image img {
+            width: 100%;
+            height: 15rem;
+            object-fit: cover;
+        }
+        
+        @media (min-width: 640px) {
+            .venue-image {
+                margin: 0 -1.5rem 2rem -1.5rem;
+            }
+            
+            .venue-image img {
+                height: 20rem;
+            }
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-divider {
+            border: none;
+            height: 1px;
+            background: #e5e7eb;
+            margin: 3rem 0;
+        }
+        
+        .info-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.75rem;
+        }
+        
+        .scores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .score-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+        }
+        
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #c5a46d;
+            margin-bottom: 0.25rem;
+        }
+        
+        .score-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .faq-section {
+            margin-top: 4rem;
+            margin-bottom: 5rem;
+        }
+        
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .faq-item {
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        
+        .faq-question {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #c5a46d;
+            margin-bottom: 0.75rem;
+        }
+        
+        .faq-answer {
+            color: #374151;
+            line-height: 1.6;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .cta-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .cta-primary {
+            background: #111827;
+            color: white;
+        }
+        
+        .cta-secondary {
+            background: #c5a46d;
+            color: white;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .tag {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+        
+        @media (min-width: 640px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .title {
+                font-size: 2.25rem;
+            }
+            
+            .rating-badge {
+                font-size: 1.25rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .container {
+                padding: 0 2rem;
+            }
+            
+            .title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen bg-white">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    Suited<span class="gold">Stay</span>
+                </a>
+                <div class="nav-buttons">
+                    <a href="/claim" class="btn-primary">List Your Property</a>
+                    <a href="/login" style="color: #374151; text-decoration: none;">Login</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="container">
+                <nav>
+                    <a href="#" style="width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #f3f4f6;">
+                        <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </a>
+                    <a href="/">SuitedStay</a>
+                    <span>•</span>
+                    <a href="/destinations">Destinations</a>
+                    <span>•</span>
+                    <a href="/destinations/{{city_slug}}">{{neighbourhood}}</a>
+                    <span>•</span>
+                    <span class="current">{{hotel_name}}</span>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container main-content">
+            <!-- Badges and Title -->
+            <div class="badges">
+                {{#if claimed_status}}
+                <div class="claimed-badge">
+                    ✓ Premium Listing
+                </div>
+                {{/if}}
+                <div class="badge badge-gold">
+                    <span class="badge-dot"></span>
+                    Ultra-Luxury
+                </div>
+                <div class="badge badge-green">
+                    <svg style="width: 1rem; height: 1rem; margin-right: 0.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                    Exceptional Experience
+                </div>
+            </div>
+            
+            <div class="title-section">
+                <div class="title-row">
+                    <h1 class="title">{{hotel_name}}</h1>
+                    <div class="rating-badge">{{overall_score}}</div>
+                </div>
+                
+                <!-- Star Rating -->
+                <div class="star-rating">
+                    {{#each star_rating}}
+                    <span class="star">★</span>
+                    {{/each}}
+                </div>
+                
+                <a href="{{google_map_url}}" target="_blank" class="address-link">
+                    {{address}}
+                </a>
+
+                <div class="status-info">
+                    <span class="status-open">
+                        <div class="status-dot"></div>
+                        Check-in: {{check_in_time}}
+                    </span>
+                    <span>•</span>
+                    <span>Check-out: {{check_out_time}}</span>
+                    <span>•</span>
+                    <span style="color: #111827; font-weight: 500;">{{price_indicator}}</span>
+                    <span>•</span>
+                    <span style="color: #111827;">{{neighbourhood}}</span>
+                </div>
+
+                <div class="cta-buttons">
+                    {{#if website}}
+                    <a href="{{website}}" target="_blank" class="cta-button cta-primary">Visit Website</a>
+                    {{/if}}
+                    {{#if booking_link}}
+                    <a href="{{booking_link}}" target="_blank" class="cta-button cta-secondary">Book Now</a>
+                    {{/if}}
+                    {{#if phone_url}}
+                    <a href="{{phone_url}}" class="cta-button cta-primary">Call Hotel</a>
+                    {{/if}}
+                    <a href="{{google_map_url}}" target="_blank" class="cta-button cta-primary">Get Directions</a>
+                </div>
+            </div>
+
+            <!-- Hero Image -->
+            {{#if hero_photo}}
+            <div class="venue-image">
+                <img src="{{hero_photo}}" alt="{{hotel_name}}" />
+            </div>
+            {{/if}}
+
+            <!-- Scores Section -->
+            <section class="section">
+                <h2 class="section-title">Ratings & Reviews</h2>
+                <div class="scores-grid">
+                    <div class="score-item">
+                        <div class="score-value">{{overall_score}}</div>
+                        <div class="score-label">Overall</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-value">{{accommodation_score}}</div>
+                        <div class="score-label">Accommodation</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-value">{{dining_score}}</div>
+                        <div class="score-label">Dining</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-value">{{ambience_score}}</div>
+                        <div class="score-label">Ambience</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-value">{{value_service_score}}</div>
+                        <div class="score-label">Service</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-value">{{location_score}}</div>
+                        <div class="score-label">Location</div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <h3>📝 Guest Reviews</h3>
+                    <p><strong>Sentiment:</strong> {{public_review_sentiment}}</p>
+                    <p><strong>Best Times to Stay:</strong> {{best_times_to_stay}}</p>
+                </div>
+            </section>
+
+            <hr class="section-divider" />
+
+            <!-- Location & Contact Section -->
+            <section class="section">
+                <div class="info-card">
+                    <h3>📍 Location & Contact</h3>
+                    <p><strong>Address:</strong> {{address}}</p>
+                    <p><strong>Neighbourhood:</strong> {{neighbourhood}}</p>
+                    {{#if phone_number}}
+                    <p><strong>Phone:</strong> <a href="{{phone_url}}">{{phone_number}}</a></p>
+                    {{/if}}
+                    {{#if website}}
+                    <p><strong>Website:</strong> <a href="{{website}}" target="_blank">Visit Hotel Website</a></p>
+                    {{/if}}
+                    <p><strong>Check-in:</strong> {{check_in_time}} | <strong>Check-out:</strong> {{check_out_time}}</p>
+                </div>
+            </section>
+
+            <!-- Getting There Section -->
+            <section class="section">
+                <div class="info-card">
+                    <h3>🚗 Getting There</h3>
+                    <p>{{getting_there}}</p>
+                    <p style="margin-top: 1rem;">
+                        <a href="{{google_map_url}}" target="_blank" style="color: #c5a46d; font-weight: 500;">
+                            View on Google Maps →
+                        </a>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Hotel Features -->
+            {{#if tags}}
+            <section class="section">
+                <div class="info-card">
+                    <h3>✨ Hotel Features</h3>
+                    <div class="tags">
+                        {{#each tags}}
+                        <span class="tag">{{this}}</span>
+                        {{/each}}
+                    </div>
+                </div>
+            </section>
+            {{/if}}
+
+            <!-- FAQs Section -->
+            <section class="faq-section">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <div class="faq-list">
+                    {{#if faq_1}}
+                    <div class="faq-item">
+                        <h3 class="faq-question">{{faq_1}}</h3>
+                        <p class="faq-answer">{{answer_1}}</p>
+                    </div>
+                    {{/if}}
+                    {{#if faq_2}}
+                    <div class="faq-item">
+                        <h3 class="faq-question">{{faq_2}}</h3>
+                        <p class="faq-answer">{{answer_2}}</p>
+                    </div>
+                    {{/if}}
+                    {{#if faq_3}}
+                    <div class="faq-item">
+                        <h3 class="faq-question">{{faq_3}}</h3>
+                        <p class="faq-answer">{{answer_3}}</p>
+                    </div>
+                    {{/if}}
+                    {{#if faq_4}}
+                    <div class="faq-item">
+                        <h3 class="faq-question">{{faq_4}}</h3>
+                        <p class="faq-answer">{{answer_4}}</p>
+                    </div>
+                    {{/if}}
+                    {{#if faq_5}}
+                    <div class="faq-item">
+                        <h3 class="faq-question">{{faq_5}}</h3>
+                        <p class="faq-answer">{{answer_5}}</p>
+                    </div>
+                    {{/if}}
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
