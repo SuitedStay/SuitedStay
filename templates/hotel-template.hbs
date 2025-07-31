@@ -85,6 +85,156 @@
             padding: 2rem 0;
         }
         
+        /* New Header Section */
+        .hotel-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .hotel-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .overall-score-badge {
+            background: #10b981;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            min-width: 60px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        
+        .hotel-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+        
+        .hotel-address {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .rating-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .star-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .star {
+            color: #fbbf24;
+            font-size: 1rem;
+        }
+        
+        .star-text {
+            color: #374151;
+            font-size: 0.875rem;
+            margin-left: 0.5rem;
+        }
+        
+        .price-indicator {
+            color: #111827;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            color: #374151;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .action-btn:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+        
+        .action-btn.primary {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        .action-btn.primary:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+        
+        .action-btn.secondary {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        
+        .action-btn.secondary:hover {
+            background: #059669;
+            border-color: #059669;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+        
+        .nav-tab {
+            padding: 0.75rem 0;
+            color: #6b7280;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        
+        .nav-tab:hover {
+            color: #374151;
+            border-bottom-color: #d1d5db;
+        }
+        
+        .nav-tab.active {
+            color: #111827;
+            border-bottom-color: #c5a46d;
+        }
+        
         .badges {
             display: flex;
             align-items: center;
@@ -145,18 +295,6 @@
             font-weight: bold;
             color: #111827;
             padding-right: 0.5rem;
-        }
-        
-        .star-rating {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .star {
-            color: #fbbf24;
-            font-size: 1.25rem;
         }
         
         .address-link {
@@ -498,7 +636,7 @@
                 padding: 0 1.5rem;
             }
             
-            .title {
+            .hotel-title {
                 font-size: 2.25rem;
             }
         }
@@ -508,9 +646,30 @@
                 padding: 0 2rem;
             }
             
-            .title {
+            .hotel-title {
                 font-size: 2.5rem;
             }
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -531,7 +690,60 @@
 
         <!-- Main Content -->
         <div class="container main-content">
-            <!-- Badges and Title -->
+            <!-- New Header Section -->
+            <div class="hotel-header">
+                <div class="hotel-info">
+                    <h1 class="hotel-title">{{hotel_name}}</h1>
+                    <div class="hotel-address">{{address}}</div>
+                    
+                    <div class="rating-info">
+                        <div class="star-rating">
+                            {{#each star_rating}}
+                            <span class="star">{{this}}</span>
+                            {{/each}}
+                            <span class="star-text">{{star_rating_text}}</span>
+                        </div>
+                        <span class="price-indicator">{{price_indicator}}</span>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="shareLink()">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                            </svg>
+                            Share Link
+                        </button>
+                        {{#if phone_url}}
+                        <a href="{{phone_url}}" class="action-btn">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            Call
+                        </a>
+                        {{/if}}
+                        {{#if book_link}}
+                        <a href="{{book_link}}" target="_blank" class="action-btn secondary">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-6 0h6m-6 0V7a1 1 0 011 1v6a1 1 0 01-1 1H6a1 1 0 01-1-1V8a1 1 0 011-1z" />
+                            </svg>
+                            Book
+                        </a>
+                        {{/if}}
+                    </div>
+                </div>
+                
+                <div class="overall-score-badge">{{overall_score}}</div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <a href="#rating-section" class="nav-tab" onclick="scrollToSection('rating-section')">Rating</a>
+                <a href="#details-section" class="nav-tab" onclick="scrollToSection('details-section')">Details</a>
+                <a href="#location-section" class="nav-tab" onclick="scrollToSection('location-section')">Location</a>
+                <a href="#faq-section" class="nav-tab" onclick="scrollToSection('faq-section')">FAQs</a>
+            </div>
+
+            <!-- Badges -->
             <div class="badges">
                 {{#if claimed_status}}
                 <div class="claimed-badge">
@@ -549,49 +761,6 @@
                     Exceptional Experience
                 </div>
             </div>
-            
-            <div class="title-section">
-                <div class="title-row">
-                    <h1 class="title">{{hotel_name}}</h1>
-                </div>
-                
-                <!-- Star Rating -->
-                <div class="star-rating">
-                    {{#each star_rating}}
-                    <span class="star">{{this}}</span>
-                    {{/each}}
-                </div>
-                
-                <a href="{{google_map_url}}" target="_blank" class="address-link">
-                    {{address}}
-                </a>
-
-                <div class="status-info">
-                    <span class="status-open">
-                        <div class="status-dot"></div>
-                        Check-in: {{check_in_time}}
-                    </span>
-                    <span>•</span>
-                    <span>Check-out: {{check_out_time}}</span>
-                    <span>•</span>
-                    <span style="color: #111827; font-weight: 500;">{{price_indicator}}</span>
-                    <span>•</span>
-                    <span style="color: #111827;">{{neighbourhood}}</span>
-                </div>
-
-                <div class="cta-buttons">
-                    {{#if website}}
-                    <a href="{{website}}" target="_blank" class="cta-button cta-primary">Visit Website</a>
-                    {{/if}}
-                    {{#if booking_link}}
-                    <a href="{{booking_link}}" target="_blank" class="cta-button cta-secondary">Book Now</a>
-                    {{/if}}
-                    {{#if phone_url}}
-                    <a href="{{phone_url}}" class="cta-button cta-primary">Call Hotel</a>
-                    {{/if}}
-                    <a href="{{google_map_url}}" target="_blank" class="cta-button cta-primary">Get Directions</a>
-                </div>
-            </div>
 
             <!-- Hero Image -->
             {{#if hero_photo}}
@@ -602,7 +771,7 @@
 
             <!-- About Section -->
             {{#if hotel_description}}
-            <section class="content-section">
+            <section class="content-section" id="details-section">
                 <h2 class="section-title">About</h2>
                 <div class="about-text">
                     {{hotel_description}}
@@ -611,7 +780,7 @@
             {{/if}}
 
             <!-- Scoring Section - BestDubai Style -->
-            <section class="content-section">
+            <section class="content-section" id="rating-section">
                 <div class="scoring-section">
                     <div class="scoring-header">
                         <div class="overall-score">{{overall_score}}</div>
@@ -688,7 +857,7 @@
             {{/if}}
 
             <!-- Location & Contact Section -->
-            <section class="content-section">
+            <section class="content-section" id="location-section">
                 <h2 class="section-title">Location & Contact</h2>
                 <div class="info-card">
                     <h3>📍 Location & Contact</h3>
@@ -737,7 +906,7 @@
 
             <!-- FAQs Section -->
             {{#if faq_1}}
-            <section class="content-section">
+            <section class="content-section" id="faq-section">
                 <h2 class="section-title">Frequently Asked Questions</h2>
                 <div class="faq-section">
                     {{#if faq_1}}
@@ -775,5 +944,85 @@
             {{/if}}
         </div>
     </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Copied!</div>
+
+    <script>
+        function shareLink() {
+            // Get the page URL from the template variable or use current URL
+            const pageUrl = '{{page_url}}' || window.location.href;
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(pageUrl).then(function() {
+                // Show toast notification
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                // Hide toast after 2 seconds
+                setTimeout(function() {
+                    toast.classList.remove('show');
+                }, 2000);
+            }).catch(function() {
+                // Fallback for browsers that don't support clipboard API
+                const textArea = document.createElement('textarea');
+                textArea.value = pageUrl;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                // Show toast notification
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                setTimeout(function() {
+                    toast.classList.remove('show');
+                }, 2000);
+            });
+        }
+
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Update active tab
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                event.target.classList.add('active');
+            }
+        }
+
+        // Add active state to navigation tabs based on scroll position
+        window.addEventListener('scroll', function() {
+            const sections = ['rating-section', 'details-section', 'location-section', 'faq-section'];
+            const navTabs = document.querySelectorAll('.nav-tab');
+            
+            let currentSection = '';
+            
+            sections.forEach(sectionId => {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top <= 100 && rect.bottom >= 100) {
+                        currentSection = sectionId;
+                    }
+                }
+            });
+            
+            navTabs.forEach((tab, index) => {
+                tab.classList.remove('active');
+                if (sections[index] === currentSection) {
+                    tab.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
