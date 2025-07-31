@@ -81,49 +81,6 @@
             background: #374151;
         }
         
-        .breadcrumb {
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 0.75rem 0;
-            display: none;
-        }
-        
-        @media (min-width: 640px) {
-            .breadcrumb {
-                display: block;
-            }
-        }
-        
-        .breadcrumb nav {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.875rem;
-            color: #6b7280;
-            overflow-x: auto;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        
-        .breadcrumb a {
-            color: #6b7280;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-        
-        .breadcrumb a:hover {
-            color: #c5a46d;
-        }
-        
-        .breadcrumb .current {
-            background: #f9fafb;
-            color: #111827;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-weight: 500;
-        }
-        
         .main-content {
             padding: 2rem 0;
         }
@@ -155,22 +112,6 @@
             color: #065f46;
         }
         
-        .badge-premium {
-            background: #1f2937;
-            color: #f9fafb;
-        }
-        
-        .badge-dot {
-            width: 0.5rem;
-            height: 0.5rem;
-            border-radius: 50%;
-            margin-right: 0.5rem;
-        }
-        
-        .badge-gold .badge-dot {
-            background: #c5a46d;
-        }
-        
         .claimed-badge {
             background: #10b981;
             color: white;
@@ -178,6 +119,14 @@
             border-radius: 9999px;
             font-size: 0.875rem;
             font-weight: 600;
+        }
+        
+        .badge-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            background: #c5a46d;
         }
         
         .title-section {
@@ -196,16 +145,6 @@
             font-weight: bold;
             color: #111827;
             padding-right: 0.5rem;
-        }
-        
-        .rating-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-weight: bold;
-            font-size: 1.125rem;
-            color: white;
-            background: #c5a46d;
-            flex-shrink: 0;
         }
         
         .star-rating {
@@ -278,98 +217,6 @@
             }
         }
         
-        .section {
-            margin-bottom: 3rem;
-        }
-        
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #111827;
-            margin-bottom: 1.5rem;
-        }
-        
-        .section-divider {
-            border: none;
-            height: 1px;
-            background: #e5e7eb;
-            margin: 3rem 0;
-        }
-        
-        .info-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .info-card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #111827;
-            margin-bottom: 0.75rem;
-        }
-        
-        .scores-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .score-item {
-            text-align: center;
-            padding: 1rem;
-            background: #f9fafb;
-            border-radius: 0.5rem;
-        }
-        
-        .score-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #c5a46d;
-            margin-bottom: 0.25rem;
-        }
-        
-        .score-label {
-            font-size: 0.875rem;
-            color: #6b7280;
-            font-weight: 500;
-        }
-        
-        .faq-section {
-            margin-top: 4rem;
-            margin-bottom: 5rem;
-        }
-        
-        .faq-list {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-        
-        .faq-item {
-            padding-bottom: 2rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-        
-        .faq-question {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: #c5a46d;
-            margin-bottom: 0.75rem;
-        }
-        
-        .faq-answer {
-            color: #374151;
-            line-height: 1.6;
-        }
-        
         .cta-buttons {
             display: flex;
             gap: 15px;
@@ -402,6 +249,209 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         
+        /* Updated Scoring Section - BestDubai style */
+        .scoring-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .scoring-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .overall-score {
+            background: #c5a46d;
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .score-info {
+            flex: 1;
+        }
+        
+        .score-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+        
+        .score-subtitle {
+            color: #6b7280;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+        
+        .verified-badge {
+            background: #111827;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .score-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .score-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .score-item:last-child {
+            border-bottom: none;
+        }
+        
+        .score-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .score-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            background: #f3f4f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+        
+        .score-value {
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            font-size: 0.875rem;
+            min-width: 3rem;
+            text-align: center;
+        }
+        
+        /* Content Sections with Better Separation */
+        .content-section {
+            margin: 3rem 0;
+            padding: 2rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .content-section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #c5a46d;
+            display: inline-block;
+        }
+        
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #374151;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-card p {
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+        
+        .info-card p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Review Sentiment Box */
+        .sentiment-box {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .sentiment-title {
+            font-weight: 600;
+            color: #0c4a6e;
+            margin-bottom: 0.5rem;
+        }
+        
+        .sentiment-text {
+            color: #075985;
+            line-height: 1.6;
+        }
+        
+        .best-times-box {
+            background: #fefce8;
+            border: 1px solid #eab308;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .best-times-title {
+            font-weight: 600;
+            color: #854d0e;
+            margin-bottom: 0.5rem;
+        }
+        
+        .best-times-text {
+            color: #a16207;
+            line-height: 1.6;
+        }
+        
         .tags {
             display: flex;
             flex-wrap: wrap;
@@ -412,9 +462,35 @@
         .tag {
             background: #f3f4f6;
             color: #374151;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
             font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .faq-section {
+            margin-top: 3rem;
+        }
+        
+        .faq-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .faq-question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #c5a46d;
+            margin-bottom: 0.75rem;
+        }
+        
+        .faq-answer {
+            color: #374151;
+            line-height: 1.6;
         }
         
         @media (min-width: 640px) {
@@ -424,10 +500,6 @@
             
             .title {
                 font-size: 2.25rem;
-            }
-            
-            .rating-badge {
-                font-size: 1.25rem;
             }
         }
         
@@ -457,26 +529,6 @@
             </div>
         </header>
 
-        <!-- Breadcrumb -->
-        <div class="breadcrumb">
-            <div class="container">
-                <nav>
-                    <a href="#" style="width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #f3f4f6;">
-                        <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </a>
-                    <a href="/">SuitedStay</a>
-                    <span>•</span>
-                    <a href="/destinations">Destinations</a>
-                    <span>•</span>
-                    <a href="/destinations/{{city_slug}}">{{neighbourhood}}</a>
-                    <span>•</span>
-                    <span class="current">{{hotel_name}}</span>
-                </nav>
-            </div>
-        </div>
-
         <!-- Main Content -->
         <div class="container main-content">
             <!-- Badges and Title -->
@@ -501,13 +553,12 @@
             <div class="title-section">
                 <div class="title-row">
                     <h1 class="title">{{hotel_name}}</h1>
-                    <div class="rating-badge">{{overall_score}}</div>
                 </div>
                 
                 <!-- Star Rating -->
                 <div class="star-rating">
                     {{#each star_rating}}
-                    <span class="star">★</span>
+                    <span class="star">{{this}}</span>
                     {{/each}}
                 </div>
                 
@@ -549,46 +600,96 @@
             </div>
             {{/if}}
 
-            <!-- Scores Section -->
-            <section class="section">
-                <h2 class="section-title">Ratings & Reviews</h2>
-                <div class="scores-grid">
-                    <div class="score-item">
-                        <div class="score-value">{{overall_score}}</div>
-                        <div class="score-label">Overall</div>
-                    </div>
-                    <div class="score-item">
-                        <div class="score-value">{{accommodation_score}}</div>
-                        <div class="score-label">Accommodation</div>
-                    </div>
-                    <div class="score-item">
-                        <div class="score-value">{{dining_score}}</div>
-                        <div class="score-label">Dining</div>
-                    </div>
-                    <div class="score-item">
-                        <div class="score-value">{{ambience_score}}</div>
-                        <div class="score-label">Ambience</div>
-                    </div>
-                    <div class="score-item">
-                        <div class="score-value">{{value_service_score}}</div>
-                        <div class="score-label">Service</div>
-                    </div>
-                    <div class="score-item">
-                        <div class="score-value">{{location_score}}</div>
-                        <div class="score-label">Location</div>
-                    </div>
+            <!-- About Section -->
+            {{#if hotel_description}}
+            <section class="content-section">
+                <h2 class="section-title">About</h2>
+                <div class="about-text">
+                    {{hotel_description}}
                 </div>
-                <div class="info-card">
-                    <h3>📝 Guest Reviews</h3>
-                    <p><strong>Sentiment:</strong> {{public_review_sentiment}}</p>
-                    <p><strong>Best Times to Stay:</strong> {{best_times_to_stay}}</p>
+            </section>
+            {{/if}}
+
+            <!-- Scoring Section - BestDubai Style -->
+            <section class="content-section">
+                <div class="scoring-section">
+                    <div class="scoring-header">
+                        <div class="overall-score">{{overall_score}}</div>
+                        <div class="score-info">
+                            <div class="verified-badge">
+                                ✓ SuitedStay Verified
+                            </div>
+                            <div class="score-title">{{overall_score}}/10</div>
+                            <div class="score-subtitle">
+                                We use a proprietary 10-point scoring system to evaluate the best luxury hotels and experiences.
+                                Scoring is carefully evaluated based on guest reviews, expert assessments, and luxury standards.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="score-breakdown">
+                        <div class="score-item">
+                            <div class="score-label">
+                                <div class="score-icon">🏨</div>
+                                Accommodation Quality
+                            </div>
+                            <div class="score-value">{{accommodation_score}}</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-label">
+                                <div class="score-icon">🍽️</div>
+                                Dining & Amenities
+                            </div>
+                            <div class="score-value">{{dining_score}}</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-label">
+                                <div class="score-icon">✨</div>
+                                Ambience & Design
+                            </div>
+                            <div class="score-value">{{ambience_score}}</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-label">
+                                <div class="score-icon">💎</div>
+                                Value & Service
+                            </div>
+                            <div class="score-value">{{value_service_score}}</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-label">
+                                <div class="score-icon">📍</div>
+                                Location & Accessibility
+                            </div>
+                            <div class="score-value">{{location_score}}</div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <hr class="section-divider" />
+            <!-- Reviews & Best Times Section -->
+            {{#if public_review_sentiment}}
+            <section class="content-section">
+                <h2 class="section-title">Guest Reviews</h2>
+                
+                <div class="sentiment-box">
+                    <div class="sentiment-title">Public Review Sentiment</div>
+                    <div class="sentiment-text">Based on {{reviews_count}} Google Reviews</div>
+                    <div class="sentiment-text">{{public_review_sentiment}}</div>
+                </div>
+
+                {{#if best_times_to_stay}}
+                <div class="best-times-box">
+                    <div class="best-times-title">Best Times to Stay</div>
+                    <div class="best-times-text">{{best_times_to_stay}}</div>
+                </div>
+                {{/if}}
+            </section>
+            {{/if}}
 
             <!-- Location & Contact Section -->
-            <section class="section">
+            <section class="content-section">
+                <h2 class="section-title">Location & Contact</h2>
                 <div class="info-card">
                     <h3>📍 Location & Contact</h3>
                     <p><strong>Address:</strong> {{address}}</p>
@@ -604,7 +705,9 @@
             </section>
 
             <!-- Getting There Section -->
-            <section class="section">
+            {{#if getting_there}}
+            <section class="content-section">
+                <h2 class="section-title">Getting There</h2>
                 <div class="info-card">
                     <h3>🚗 Getting There</h3>
                     <p>{{getting_there}}</p>
@@ -615,12 +718,14 @@
                     </p>
                 </div>
             </section>
+            {{/if}}
 
             <!-- Hotel Features -->
             {{#if tags}}
-            <section class="section">
+            <section class="content-section">
+                <h2 class="section-title">Hotel Features</h2>
                 <div class="info-card">
-                    <h3>✨ Hotel Features</h3>
+                    <h3>✨ Amenities & Features</h3>
                     <div class="tags">
                         {{#each tags}}
                         <span class="tag">{{this}}</span>
@@ -631,9 +736,10 @@
             {{/if}}
 
             <!-- FAQs Section -->
-            <section class="faq-section">
+            {{#if faq_1}}
+            <section class="content-section">
                 <h2 class="section-title">Frequently Asked Questions</h2>
-                <div class="faq-list">
+                <div class="faq-section">
                     {{#if faq_1}}
                     <div class="faq-item">
                         <h3 class="faq-question">{{faq_1}}</h3>
@@ -666,6 +772,7 @@
                     {{/if}}
                 </div>
             </section>
+            {{/if}}
         </div>
     </div>
 </body>
