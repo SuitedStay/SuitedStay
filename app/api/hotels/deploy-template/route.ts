@@ -27,7 +27,6 @@ export async function POST(request: NextRequest) {
       public_review_sentiment = '',
       best_times_to_stay = '',
       getting_there = '',
-      tags = [],
       faq_1 = '',
       answer_1 = '',
       faq_2 = '',
@@ -62,7 +61,7 @@ export async function POST(request: NextRequest) {
       .replace(/\{\{value_service_score\}\}/g, value_service_score)
       .replace(/\{\{location_score\}\}/g, location_score)
       .replace(/\{\{price_indicator\}\}/g, price_indicator)
-      .replace(/\{\{claimed_status\}\}/g, claimed_status.toString())
+      .replace(/\{\{claimed_status\}\}/g, claimed_status ? 'true' : '')
       .replace(/\{\{hero_photo\}\}/g, hero_photo)
       .replace(/\{\{public_review_sentiment\}\}/g, public_review_sentiment)
       .replace(/\{\{best_times_to_stay\}\}/g, best_times_to_stay)
@@ -78,18 +77,13 @@ export async function POST(request: NextRequest) {
       .replace(/\{\{faq_5\}\}/g, faq_5)
       .replace(/\{\{answer_5\}\}/g, answer_5)
 
-    // Create output directory and save file
-    const outputDir = path.join(process.cwd(), 'public', 'hotels')
-    await fs.mkdir(outputDir, { recursive: true })
-    
-    const outputPath = path.join(outputDir, `${hotel_slug}.html`)
-    await fs.writeFile(outputPath, template)
-
+    // Return the generated HTML instead of saving it
     return NextResponse.json({ 
       success: true,
       message: 'Hotel page generated successfully',
-      url: `/hotels/${hotel_slug}.html`,
+      html: template,
       hotel_name,
+      suggested_filename: `${hotel_slug}.html`,
       generated_at: new Date().toISOString()
     })
 
