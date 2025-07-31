@@ -47,3 +47,11 @@ export async function OPTIONS() {
     },
   })
 }
+
+export async function GET() {
+  return NextResponse.json({ 
+    message: 'Hotel API endpoint is working',
+    methods: ['POST'],
+    timestamp: new Date().toISOString()
+  })
+}
