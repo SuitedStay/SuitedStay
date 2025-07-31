@@ -116,6 +116,7 @@
             line-height: 1.6;
             color: #374151;
             background: #ffffff;
+            font-size: 0.875rem;
         }
         
         .container {
@@ -302,9 +303,11 @@
         .nav-tabs {
             display: flex;
             gap: 2rem;
+            border-top: 1px solid #e5e7eb;
             border-bottom: 1px solid #e5e7eb;
             margin-bottom: 2rem;
             overflow-x: auto;
+            padding: 0.75rem 0;
         }
         
         .nav-tab {
@@ -1046,10 +1049,10 @@
                 <h2 class="section-title">Location</h2>
                 
                 <!-- Map -->
-                {{#if directions_url}}
+                {{#if address_google_maps_link}}
                 <div class="location-map">
-                    <iframe src="{{directions_url}}" allowfullscreen loading="lazy"></iframe>
-                    <a href="{{directions_url}}" target="_blank" class="map-button">View larger map</a>
+                    <iframe src="{{address_google_maps_link}}" allowfullscreen loading="lazy"></iframe>
+                    <a href="{{address_google_maps_link}}" target="_blank" class="map-button">View larger map</a>
                 </div>
                 {{/if}}
 
