@@ -33,7 +33,10 @@ export async function POST(request: NextRequest) {
       overall_score: hotel.overall_score || '0.0',
       address: hotel.address || 'Address not available',
       website: hotel.website || '',
-      booking_link: hotel.booking_link || ''
+      booking_link: hotel.booking_link || '',
+      neighbourhood: hotel.neighbourhood || '',
+      check_in_time: hotel.check_in_time || '3:00 PM',
+      check_out_time: hotel.check_out_time || '12:00 PM'
     }
 
     // Load and compile template
@@ -44,10 +47,25 @@ export async function POST(request: NextRequest) {
     // Generate HTML
     const htmlContent = template(templateData)
 
+    // Store HTML in Supabase
+    const { error: updateError } = await supabase
+      .from('hotels')
+      .update({ 
+        generated_html: htmlContent,
+        is_published: true,
+        publish_date: new Date().toISOString()
+      })
+      .eq('id', hotel_id)
+
+    if (updateError) {
+      throw new Error(`Failed to save HTML: ${updateError.message}`)
+    }
+
     return NextResponse.json({ 
       success: true,
-      message: 'Hotel page created successfully',
+      message: 'Hotel page created and saved successfully',
       hotel_name: templateData.hotel_name,
+      url: `https://suited-stay.vercel.app/hotels/${templateData.hotel_slug}`,
       hotel_id: hotel_id
     })
 
