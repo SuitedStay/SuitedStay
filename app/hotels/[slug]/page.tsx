@@ -55,10 +55,12 @@ export default async function HotelPage({ params }: { params: { slug: string } }
   }
 
   // Prepare template data with FAQs
-  const templateData = {
-    ...hotel,
-    faqs: faqs || []
-  }
+  // In app/hotels/[slug]/page.tsx, update the templateData:
+const templateData = {
+  ...hotel,
+  faqs: faqs || [],
+  amenities: hotel.amenities ? (Array.isArray(hotel.amenities) ? hotel.amenities : hotel.amenities.split(',').map(item => item.trim())) : []
+}
 
   // Read the Handlebars template
   const templatePath = path.join(process.cwd(), 'templates', 'hotel-template.hbs')
