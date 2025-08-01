@@ -56,10 +56,11 @@ export default async function HotelPage({ params }: { params: { slug: string } }
 
   // Prepare template data with FAQs
   // In app/hotels/[slug]/page.tsx, update the templateData:
-const templateData = {
+    const templateData = {
   ...hotel,
   faqs: faqs || [],
-  amenities: hotel.amenities ? (Array.isArray(hotel.amenities) ? hotel.amenities : hotel.amenities.split(',').map(item => item.trim())) : []
+  amenities: hotel.amenities ? (Array.isArray(hotel.amenities) ? hotel.amenities : hotel.amenities.split(',').map(item => item.trim())) : [],
+  google_maps_api_key: process.env.GOOGLE_MAPS_API_KEY
 }
 
   // Read the Handlebars template
