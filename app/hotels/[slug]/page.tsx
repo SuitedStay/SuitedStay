@@ -1,4 +1,3 @@
-cat > "app/hotels/[slug]/page.tsx" << 'EOF'
 import { createClient } from '@supabase/supabase-js'
 import { notFound } from 'next/navigation'
 import Handlebars from 'handlebars'
@@ -95,4 +94,3 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     description: hotel.hotel_description,
   }
 }
-EOF
