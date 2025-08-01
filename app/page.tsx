@@ -1,9 +1,9 @@
-import Hero from './components/Hero'
-import LiveCounter from './components/LiveCounter'
-import FeaturedDestinations from './components/FeaturedDestinations'
-import FeaturedProperties from './components/FeaturedProperties'
-import ValueProps from './components/ValueProps'
-import Footer from './components/Footer'
+import Hero from '../components/Hero'
+import LiveCounter from '../components/LiveCounter'
+import FeaturedDestinations from '../components/FeaturedDestinations'
+import FeaturedProperties from '../components/FeaturedProperties'
+import ValueProps from '../components/ValueProps'
+import Footer from '../components/Footer'
 
 export default function HomePage() {
   return (
