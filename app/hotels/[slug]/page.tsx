@@ -4,12 +4,27 @@ import Handlebars from 'handlebars'
 import fs from 'fs'
 import path from 'path'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+// Create Supabase client with error handling
+function createSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.error('Missing Supabase environment variables:', { supabaseUrl: !!supabaseUrl, supabaseKey: !!supabaseKey })
+    return null
+  }
+
+  return createClient(supabaseUrl, supabaseKey)
+}
 
 export default async function HotelPage({ params }: { params: { slug: string } }) {
+  const supabase = createSupabaseClient()
+  
+  if (!supabase) {
+    console.log('Supabase client not available')
+    notFound()
+  }
+
   // Fetch hotel data from Supabase
   const { data: hotel, error } = await supabase
     .from('hotels')
@@ -24,7 +39,15 @@ export default async function HotelPage({ params }: { params: { slug: string } }
 
   // Read the Handlebars template
   const templatePath = path.join(process.cwd(), 'templates', 'hotel-template.hbs')
-  const templateSource = fs.readFileSync(templatePath, 'utf8')
+  
+  let templateSource
+  try {
+    templateSource = fs.readFileSync(templatePath, 'utf8')
+  } catch (err) {
+    console.error('Template file not found:', templatePath)
+    return <div>Template not found</div>
+  }
+
   const template = Handlebars.compile(templateSource)
 
   // Render the template with hotel data
@@ -36,6 +59,14 @@ export default async function HotelPage({ params }: { params: { slug: string } }
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const supabase = createSupabaseClient()
+  
+  if (!supabase) {
+    return {
+      title: 'Hotel Page',
+    }
+  }
+
   const { data: hotel } = await supabase
     .from('hotels')
     .select('hotel_name, hotel_description')
