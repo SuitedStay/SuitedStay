@@ -9,15 +9,8 @@ function createSupabaseClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-  // Debug logging
-  console.log('Environment check:', {
-    supabaseUrl: supabaseUrl ? 'EXISTS' : 'MISSING',
-    supabaseKey: supabaseKey ? 'EXISTS' : 'MISSING',
-    supabaseUrlValue: supabaseUrl?.substring(0, 20) + '...',
-    allEnvKeys: Object.keys(process.env).filter(key => key.includes('SUPABASE'))
-  })
-
   if (!supabaseUrl || !supabaseKey) {
+    console.error('Missing Supabase environment variables:', { supabaseUrl: !!supabaseUrl, supabaseKey: !!supabaseKey })
     return null
   }
 
@@ -31,16 +24,10 @@ export default async function HotelPage({ params }: { params: { slug: string } }
     return <div style={{ padding: '2rem' }}>
       <h1>Configuration Error</h1>
       <p>Unable to connect to database</p>
-      <p>Debug info:</p>
-      <ul>
-        <li>NEXT_PUBLIC_SUPABASE_URL: {process.env.NEXT_PUBLIC_SUPABASE_URL ? 'EXISTS' : 'MISSING'}</li>
-        <li>NEXT_PUBLIC_SUPABASE_ANON_KEY: {process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'EXISTS' : 'MISSING'}</li>
-        <li>All SUPABASE env vars: {Object.keys(process.env).filter(key => key.includes('SUPABASE')).join(', ')}</li>
-      </ul>
     </div>
   }
 
-  // Rest of your code...
+  // Fetch hotel data from Supabase
   const { data: hotel, error } = await supabase
     .from('hotels')
     .select('*')
@@ -48,6 +35,7 @@ export default async function HotelPage({ params }: { params: { slug: string } }
     .single()
 
   if (error || !hotel) {
+    console.log('Hotel not found:', error)
     return <div style={{ padding: '2rem' }}>
       <h1>Hotel Not Found</h1>
       <p>Slug: {params.slug}</p>
@@ -55,8 +43,54 @@ export default async function HotelPage({ params }: { params: { slug: string } }
     </div>
   }
 
-  return <div style={{ padding: '2rem' }}>
-    <h1>Success!</h1>
-    <p>Hotel found: {hotel.hotel_name}</p>
-  </div>
+  // Read the Handlebars template
+  const templatePath = path.join(process.cwd(), 'templates', 'hotel-template.hbs')
+  
+  let templateSource
+  try {
+    templateSource = fs.readFileSync(templatePath, 'utf8')
+  } catch (err) {
+    console.error('Template file not found:', templatePath)
+    return <div style={{ padding: '2rem' }}>
+      <h1>Template Error</h1>
+      <p>Hotel: {hotel.hotel_name}</p>
+      <p>Template file not found at: {templatePath}</p>
+    </div>
+  }
+
+  const template = Handlebars.compile(templateSource)
+
+  // Render the template with hotel data
+  const htmlContent = template(hotel)
+
+  // Return the rendered HTML
+  return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+}
+
+// Generate metadata for SEO
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const supabase = createSupabaseClient()
+  
+  if (!supabase) {
+    return {
+      title: 'Hotel Page',
+    }
+  }
+
+  const { data: hotel } = await supabase
+    .from('hotels')
+    .select('hotel_name, hotel_description')
+    .eq('slug', params.slug)
+    .single()
+
+  if (!hotel) {
+    return {
+      title: 'Hotel Not Found',
+    }
+  }
+
+  return {
+    title: `${hotel.hotel_name} - Luxury Hotel | SuitedStay`,
+    description: hotel.hotel_description,
+  }
 }
