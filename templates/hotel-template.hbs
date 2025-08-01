@@ -216,61 +216,60 @@
         <!-- Rating Section -->
         <section id="rating" class="mb-8">
             <div class="bg-gray-50 rounded-xl border border-gray-200 p-8">
-                <div class="flex items-center mb-6">
-                    <div class="bg-gold text-white w-20 h-20 rounded-xl flex items-center justify-center mr-6">
-                        <span class="text-2xl font-bold">{{overall_score}}</span>
-                    </div>
+                <div class="flex items-start justify-between">
+                    <!-- Left side - Verification info -->
                     <div class="flex-1">
-                        <div class="bg-gray-900 text-white px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1 mb-2">
+                        <div class="bg-gray-900 text-white px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1 mb-4">
                             ✓ SuitedStay Verified
                         </div>
-                        <div class="text-xl font-bold text-gray-900">{{overall_score}}/10</div>
-                        <p class="text-gray-600 text-sm leading-relaxed">
+                        <div class="text-4xl font-bold text-emerald-500 mb-2">{{overall_score}}<span class="text-gray-400">/10</span></div>
+                        <p class="text-gray-600 text-sm leading-relaxed max-w-md">
                             We use a proprietary 10-point scoring system to evaluate the best luxury hotels and experiences.
                             Scoring is carefully evaluated based on guest reviews, expert assessments, and luxury standards.
                         </p>
                     </div>
-                </div>
-                
-                <div class="space-y-0 divide-y divide-gray-200">
-                    <div class="flex items-center justify-between py-3">
-                        <div class="flex items-center">
-                            <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center mr-3 text-xs">🏨</div>
-                            <span class="font-medium text-gray-900">Accommodation Quality</span>
-                        </div>
-                        <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{accommodation_quality_score}}</div>
-                    </div>
                     
-                    <div class="flex items-center justify-between py-3">
-                        <div class="flex items-center">
-                            <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center mr-3 text-xs">🍽️</div>
-                            <span class="font-medium text-gray-900">Dining & Amenities</span>
+                    <!-- Right side - Score breakdown -->
+                    <div class="space-y-3 ml-8">
+                        <div class="flex items-center justify-between min-w-80">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">🏨</div>
+                                <span class="font-medium text-gray-900">Accommodation Quality</span>
+                            </div>
+                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{accommodation_quality_score}}</div>
                         </div>
-                        <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{dining_amenities_score}}</div>
-                    </div>
-                    
-                    <div class="flex items-center justify-between py-3">
-                        <div class="flex items-center">
-                            <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center mr-3 text-xs">✨</div>
-                            <span class="font-medium text-gray-900">Ambience & Design</span>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">🍽️</div>
+                                <span class="font-medium text-gray-900">Dining & Amenities</span>
+                            </div>
+                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{dining_amenities_score}}</div>
                         </div>
-                        <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{ambience_design_score}}</div>
-                    </div>
-                    
-                    <div class="flex items-center justify-between py-3">
-                        <div class="flex items-center">
-                            <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center mr-3 text-xs">💎</div>
-                            <span class="font-medium text-gray-900">Value & Service</span>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">✨</div>
+                                <span class="font-medium text-gray-900">Ambience & Design</span>
+                            </div>
+                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{ambience_design_score}}</div>
                         </div>
-                        <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{value_service_score}}</div>
-                    </div>
-                    
-                    <div class="flex items-center justify-between py-3">
-                        <div class="flex items-center">
-                            <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center mr-3 text-xs">📍</div>
-                            <span class="font-medium text-gray-900">Location & Accessibility</span>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">💎</div>
+                                <span class="font-medium text-gray-900">Value & Service</span>
+                            </div>
+                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{value_service_score}}</div>
                         </div>
-                        <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{location_accessibility_score}}</div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">📍</div>
+                                <span class="font-medium text-gray-900">Location & Accessibility</span>
+                            </div>
+                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{location_accessibility_score}}</div>
+                        </div>
                     </div>
                 </div>
             </div>
