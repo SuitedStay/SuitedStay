@@ -43,6 +43,23 @@ export default async function HotelPage({ params }: { params: { slug: string } }
     </div>
   }
 
+  // Fetch FAQs for this hotel
+  const { data: faqs, error: faqError } = await supabase
+    .from('hotel_faqs')
+    .select('question, answer, order_number')
+    .eq('hotel_id', hotel.id)
+    .order('order_number')
+
+  if (faqError) {
+    console.warn('FAQ fetch error:', faqError)
+  }
+
+  // Prepare template data with FAQs
+  const templateData = {
+    ...hotel,
+    faqs: faqs || []
+  }
+
   // Read the Handlebars template
   const templatePath = path.join(process.cwd(), 'templates', 'hotel-template.hbs')
   
@@ -60,8 +77,8 @@ export default async function HotelPage({ params }: { params: { slug: string } }
 
   const template = Handlebars.compile(templateSource)
 
-  // Render the template with hotel data
-  const htmlContent = template(hotel)
+  // Render the template with hotel data + FAQs
+  const htmlContent = template(templateData)
 
   // Return the rendered HTML
   return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
@@ -79,7 +96,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   const { data: hotel } = await supabase
     .from('hotels')
-    .select('hotel_name, hotel_description')
+    .select('hotel_name, description')
     .eq('slug', params.slug)
     .single()
 
@@ -91,6 +108,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   return {
     title: `${hotel.hotel_name} - Luxury Hotel | SuitedStay`,
-    description: hotel.hotel_description,
+    description: hotel.description,
   }
 }
