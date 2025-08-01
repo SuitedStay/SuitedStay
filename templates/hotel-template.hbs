@@ -3,8 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{hotel_name}} - Luxury Hotel | SuitedStay</title>
-    <meta name="description" content="{{description}}">
+    <title>{{hotel_name}} - Luxury Hotel in {{neighbourhood}} | SuitedStay</title>
+    <meta name="description" content="{{description}} Located in {{neighbourhood}}, this luxury hotel offers {{amenities.[0]}}, {{amenities.[1]}}, and more premium amenities.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="{{page_url}}">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{hotel_name}} - Luxury Hotel | SuitedStay">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:image" content="{{hero_photo_url}}">
+    <meta property="og:url" content="{{page_url}}">
+    <meta property="og:site_name" content="SuitedStay">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{hotel_name}} - Luxury Hotel | SuitedStay">
+    <meta name="twitter:description" content="{{description}}">
+    <meta name="twitter:image" content="{{hero_photo_url}}">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    {{#if hero_photo_url}}
+    <link rel="preload" href="{{hero_photo_url}}" as="image">
+    {{/if}}
     
     <!-- Schema Markup for SEO -->
     <script type="application/ld+json">
@@ -13,19 +35,31 @@
         "@type": ["Hotel", "LodgingBusiness"],
         "name": "{{hotel_name}}",
         "description": "{{description}}",
+        "url": "{{page_url}}",
+        "image": "{{hero_photo_url}}",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "{{address}}",
-            "addressLocality": "{{neighbourhood}}"
+            "addressLocality": "{{neighbourhood}}",
+            "addressCountry": "{{country}}"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "{{latitude}}",
+            "longitude": "{{longitude}}"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "{{overall_score}}",
+            "reviewCount": "{{reviews_count}}",
+            "bestRating": "10",
+            "worstRating": "1"
         },
         {{#if phone_formatted}}
         "telephone": "{{phone_formatted}}",
         {{/if}}
         {{#if website}}
         "url": "{{website}}",
-        {{/if}}
-        {{#if hero_photo_url}}
-        "image": "{{hero_photo_url}}",
         {{/if}}
         "checkinTime": "{{check_in}}",
         "checkoutTime": "{{check_out}}",
@@ -58,12 +92,16 @@
     }
     </script>
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Critical CSS inline -->
     <style>
         .text-gold { color: #c5a46d; }
         .bg-gold { background-color: #c5a46d; }
         .border-gold { border-color: #c5a46d; }
+        body { font-display: swap; }
     </style>
+    
+    <!-- Deferred Tailwind -->
+    <script defer src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white font-sans text-sm leading-relaxed text-gray-700">
     <!-- Header -->
@@ -87,11 +125,9 @@
     <div class="max-w-4xl mx-auto px-6 py-8">
         <!-- Badges -->
         <div class="flex items-center gap-4 mb-4 flex-wrap">
-            {{#if claimed_status}}
-            <div class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+            <div id="premium-badge" class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
                 ✓ Premium Listing
             </div>
-            {{/if}}
             <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium flex items-center">
                 <span class="w-2 h-2 bg-gold rounded-full mr-2"></span>
                 Ultra-Luxury
@@ -112,16 +148,17 @@
                 
                 <div class="flex items-center space-x-4 mb-4 flex-wrap">
                     <div class="flex items-center">
-                        <div class="flex text-yellow-400 text-base">
+                        <div class="flex text-yellow-400 text-base mr-2">
                             {{#if star_rating_icons}}
                             {{#each star_rating_icons}}
                             <span>{{this}}</span>
                             {{/each}}
                             {{/if}}
                         </div>
-                        <span class="ml-2 text-sm text-gray-600">{{star_rating_text}}</span>
+                        <span class="text-sm text-gray-600">{{star_rating_text}}</span>
+                        <span class="mx-2 text-gray-400">•</span>
+                        <span class="text-sm font-semibold text-gray-900">{{price_indicator}}</span>
                     </div>
-                    <div class="text-sm font-semibold text-gray-900">{{price_indicator}}</div>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3">
@@ -139,12 +176,6 @@
                         Call
                     </a>
                     {{/if}}
-                    <a href="#" class="flex items-center px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
-                        Go
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                        </svg>
-                    </a>
                     {{#if book_link}}
                     <a href="{{book_link}}" target="_blank" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
                         Book {{price_range}}
@@ -169,10 +200,10 @@
             </nav>
         </div>
 
-        <!-- Hero Image -->
+        <!-- Hero Image with lazy loading -->
         {{#if hero_photo_url}}
         <div class="mb-8 -mx-6 lg:-mx-8">
-            <img src="{{hero_photo_url}}" alt="{{hotel_name}}" class="w-full h-64 md:h-80 lg:h-96 object-cover rounded-lg" />
+            <img src="{{hero_photo_url}}" alt="{{hotel_name}} luxury hotel exterior view" class="w-full h-64 md:h-80 lg:h-96 object-cover rounded-lg" loading="eager" fetchpriority="high" />
         </div>
         {{/if}}
 
@@ -472,6 +503,15 @@
                 }, 2000);
             });
         }
+
+        // Show premium badge only if claimed_status equals 'claimed'
+        document.addEventListener('DOMContentLoaded', function() {
+            const claimedStatus = '{{claimed_status}}';
+            const premiumBadge = document.getElementById('premium-badge');
+            if (claimedStatus !== 'claimed' && premiumBadge) {
+                premiumBadge.style.display = 'none';
+            }
+        });
 
         function scrollToSection(sectionId, tab) {
             const element = document.getElementById(sectionId);
