@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js'
-import Header from '@/components/Header'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -105,9 +104,6 @@ export default async function HomePage() {
 
   return (
     <div className="bg-white font-sans text-sm leading-relaxed text-gray-700">
-      {/* Header */}
-      <Header />
-
       {/* Hero Section */}
       <div className="bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-4xl mx-auto px-6 py-16 text-center">
