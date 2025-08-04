@@ -3,513 +3,950 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{hotel_name}} - Luxury Hotel in {{neighbourhood}} | SuitedStay</title>
-    <meta name="description" content="{{description}} Located in {{neighbourhood}}, this luxury hotel offers {{amenities.[0]}}, {{amenities.[1]}}, and more premium amenities.">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <link rel="canonical" href="{{page_url}}">
+    <title>{{hotel_name}} - Luxury Hotel | SuitedStay</title>
+    <meta name="description" content="{{hotel_description}}">
     
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="{{hotel_name}} - Luxury Hotel | SuitedStay">
-    <meta property="og:description" content="{{description}}">
-    <meta property="og:image" content="{{hero_photo_url}}">
-    <meta property="og:url" content="{{page_url}}">
-    <meta property="og:site_name" content="SuitedStay">
+    <!-- Schema.org structured data -->
+    {{{schema_data}}}
     
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{hotel_name}} - Luxury Hotel | SuitedStay">
-    <meta name="twitter:description" content="{{description}}">
-    <meta name="twitter:image" content="{{hero_photo_url}}">
-    
-    <!-- Preload critical resources -->
-    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
-    {{#if hero_photo_url}}
-    <link rel="preload" href="{{hero_photo_url}}" as="image">
-    {{/if}}
-    
-    <!-- Schema Markup for SEO -->
+    <!-- FAQ Schema -->
+    {{#if faq_1}}
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": ["Hotel", "LodgingBusiness"],
-        "name": "{{hotel_name}}",
-        "description": "{{description}}",
-        "url": "{{page_url}}",
-        "image": "{{hero_photo_url}}",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "{{address}}",
-            "addressLocality": "{{neighbourhood}}",
-            "addressCountry": "{{country}}"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": "{{latitude}}",
-            "longitude": "{{longitude}}"
-        },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "{{overall_score}}",
-            "reviewCount": "{{reviews_count}}",
-            "bestRating": "10",
-            "worstRating": "1"
-        },
-        {{#if phone_formatted}}
-        "telephone": "{{phone_formatted}}",
-        {{/if}}
-        {{#if website}}
-        "url": "{{website}}",
-        {{/if}}
-        "checkinTime": "{{check_in}}",
-        "checkoutTime": "{{check_out}}",
-        {{#if price_range}}
-        "priceRange": "{{price_range}}",
-        {{/if}}
-        "amenityFeature": [
-            {{#each amenities}}
-            {
-                "@type": "LocationFeatureSpecification",
-                "name": "{{this}}"
-            }{{#unless @last}},{{/unless}}
-            {{/each}}
-        ]
-        {{#if faqs}}
-        ,
+        "@type": "FAQPage",
         "mainEntity": [
-            {{#each faqs}}
+            {{#if faq_1}}
             {
                 "@type": "Question",
-                "name": "{{question}}",
+                "name": "{{faq_1}}",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "{{answer}}"
+                    "text": "{{answer_1}}"
                 }
-            }{{#unless @last}},{{/unless}}
-            {{/each}}
+            }{{#if faq_2}},{{/if}}
+            {{/if}}
+            {{#if faq_2}}
+            {
+                "@type": "Question",
+                "name": "{{faq_2}}",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{answer_2}}"
+                }
+            }{{#if faq_3}},{{/if}}
+            {{/if}}
+            {{#if faq_3}}
+            {
+                "@type": "Question",
+                "name": "{{faq_3}}",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{answer_3}}"
+                }
+            }{{#if faq_4}},{{/if}}
+            {{/if}}
+            {{#if faq_4}}
+            {
+                "@type": "Question",
+                "name": "{{faq_4}}",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{answer_4}}"
+                }
+            }{{#if faq_5}},{{/if}}
+            {{/if}}
+            {{#if faq_5}}
+            {
+                "@type": "Question",
+                "name": "{{faq_5}}",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{answer_5}}"
+                }
+            }
+            {{/if}}
         ]
-        {{/if}}
     }
     </script>
+    {{/if}}
     
-    <!-- Critical CSS inline -->
     <style>
-        .text-gold { color: #c5a46d; }
-        .bg-gold { background-color: #c5a46d; }
-        .border-gold { border-color: #c5a46d; }
-        body { font-display: swap; }
-    </style>
-    
-    <!-- Deferred Tailwind -->
-    <script defer src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-white font-sans text-sm leading-relaxed text-gray-700">
-    <!-- Header -->
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="/" class="text-xl font-bold text-gray-900">
-                    Suited<span class="text-gold">Stay</span>
-                </a>
-                <div class="flex items-center space-x-4">
-                    <a href="/claim" class="bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors">
-                        List Your Property
-                    </a>
-                    <a href="/login" class="text-gray-600 hover:text-gray-900 text-sm">Login</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <div class="max-w-4xl mx-auto px-6 py-4">
-        <!-- Badges -->
-        <div class="flex items-center gap-4 mb-3 flex-wrap">
-            <div id="premium-badge" class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                ✓ Premium Listing
-            </div>
-            <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium flex items-center">
-                <span class="w-2 h-2 bg-gold rounded-full mr-2"></span>
-                Ultra-Luxury
-            </div>
-            <div class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm font-medium flex items-center">
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
-                </svg>
-                Exceptional Experience
-            </div>
-        </div>
-
-        <!-- Hotel Header with Score -->
-        <div class="flex items-start justify-between mb-4">
-            <div class="flex-1 pr-4">
-                <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-2 leading-tight">{{hotel_name}}</h1>
-                <p class="text-gray-600 mb-3">{{address}}</p>
-                
-                <div class="flex items-center space-x-4 mb-3 flex-wrap">
-                    <div class="flex items-center">
-                        {{#if star_rating_icons}}
-                        <div class="flex text-yellow-400 text-base mr-2">
-                            {{star_rating_icons}}
-                        </div>
-                        {{/if}}
-                        <span class="text-sm text-gray-600">{{star_rating_text}}</span>
-                        <span class="mx-2 text-gray-400">•</span>
-                        <span class="text-sm font-semibold text-gray-900">{{price_indicator}}</span>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap items-center gap-3">
-                    <button id="shareBtn" onclick="shareLink()" class="flex items-center px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
-                        </svg>
-                        <span id="shareText">Share Link</span>
-                    </button>
-                    {{#if phone_url}}
-                    <a href="{{phone_url}}" class="flex items-center px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                        </svg>
-                        Call
-                    </a>
-                    {{/if}}
-                    {{#if book_link}}
-                    <a href="{{book_link}}" target="_blank" class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                        Book {{price_range}}
-                    </a>
-                    {{/if}}
-                </div>
-            </div>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #374151;
+            background: #ffffff;
+            font-size: 0.875rem;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        /* Hotel Header Section */
+        .hotel-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .hotel-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .badges {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            display: flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .badge-gold {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-green {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .claimed-badge {
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .badge-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            background: #c5a46d;
+        }
+        
+        .title-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+        }
+        
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #111827;
+            padding-right: 0.5rem;
+        }
+        
+        .address-link {
+            color: #c5a46d;
+            text-decoration: none;
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        
+        .address-link:hover {
+            text-decoration: underline;
+        }
+        
+        .star-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .star {
+            color: #fbbf24;
+            font-size: 1.25rem;
+        }
+        
+        .star-text {
+            margin-left: 0.5rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #374151;
+        }
+        
+        .action-btn:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+        
+        .action-btn.primary {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        
+        .action-btn.primary:hover {
+            background: #059669;
+            border-color: #059669;
+        }
+        
+        .action-btn.secondary {
+            background: #059669;
+            color: white;
+            border-color: #059669;
+        }
+        
+        .action-btn.secondary:hover {
+            background: #047857;
+            border-color: #047857;
+        }
+        
+        /* Score Section */
+        .score-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f9fafb;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .score-circle {
+            background: #10b981;
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .score-info {
+            flex: 1;
+        }
+        
+        .score-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+        
+        .score-subtitle {
+            color: #6b7280;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+        
+        .verified-badge {
+            background: #111827;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .score-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .score-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .score-item:last-child {
+            border-bottom: none;
+        }
+        
+        .score-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .score-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            background: #f3f4f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+        
+        .score-value {
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            font-size: 0.875rem;
+            min-width: 3rem;
+            text-align: center;
+        }
+        
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 2rem;
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding: 0.75rem 0;
+        }
+        
+        .nav-tab {
+            padding: 0.75rem 0;
+            color: #6b7280;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        
+        .nav-tab:hover {
+            color: #374151;
+            border-bottom-color: #d1d5db;
+        }
+        
+        .nav-tab.active {
+            color: #111827;
+            border-bottom-color: #c5a46d;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            margin: 1.5rem 0;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .content-section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-card {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+        
+        .info-card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .tag {
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        /* Location Section */
+        .location-grid {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .location-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .location-label {
+            font-weight: 600;
+            color: #111827;
+            font-size: 0.875rem;
+        }
+        
+        .location-value {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .location-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            color: #374151;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .location-button:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+        
+        .location-button.primary {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        
+        .location-button.primary:hover {
+            background: #059669;
+            border-color: #059669;
+        }
+        
+        /* FAQ Section */
+        .faq-item {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+        
+        .faq-answer {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #111827;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            opacity: 0;
+            transform: translateY(1rem);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
             
-            <!-- Score Badge -->
-            <div class="bg-emerald-500 text-white text-2xl font-bold w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0">
-                {{overall_score}}
-            </div>
-        </div>
-
-        <!-- Navigation Tabs -->
-        <div class="border-t border-b border-gray-200 mb-4">
-            <nav class="flex space-x-8 overflow-x-auto">
-                <a href="#rating" class="nav-tab py-2 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm whitespace-nowrap cursor-pointer" onclick="scrollToSection('rating', this)">Rating</a>
-                <a href="#details" class="nav-tab py-2 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm whitespace-nowrap cursor-pointer" onclick="scrollToSection('details', this)">Details</a>
-                <a href="#location" class="nav-tab py-2 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm whitespace-nowrap cursor-pointer" onclick="scrollToSection('location', this)">Location</a>
-                <a href="#faqs" class="nav-tab py-2 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm whitespace-nowrap cursor-pointer" onclick="scrollToSection('faqs', this)">FAQs</a>
-            </nav>
-        </div>
-
-        <!-- Hero Image with lazy loading -->
-        {{#if hero_photo_url}}
-        <div class="mb-4 -mx-6 lg:-mx-8">
-            <img src="{{hero_photo_url}}" alt="{{hotel_name}} luxury hotel exterior view" class="w-full h-64 md:h-72 lg:h-80 object-cover rounded-lg" loading="eager" fetchpriority="high" />
-        </div>
-        {{/if}}
-
-        <!-- About Section -->
-        <section id="details" class="mb-8">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6 pb-2 border-b-2 border-gold inline-block">About</h2>
-            <div class="text-base leading-relaxed text-gray-700 mb-6 whitespace-pre-line">
-                {{description}}
-            </div>
-        </section>
-
-        <!-- Rating Section -->
-        <section id="rating" class="mb-8">
-            <div class="bg-gray-50 rounded-xl border border-gray-200 p-8">
-                <div class="flex items-start justify-between">
-                    <!-- Left side - Verification info -->
-                    <div class="flex-1">
-                        <div class="bg-gray-900 text-white px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1 mb-4">
-                            ✓ SuitedStay Verified
+            .main-content {
+                padding: 1rem 0;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .score-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hotel-header {
+                flex-direction: column;
+            }
+            
+            .action-buttons {
+                justify-content: center;
+            }
+            
+            .nav-tabs {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <!-- Hotel Header Section -->
+            <div class="hotel-header">
+                <div class="hotel-info">
+                    <div class="badges">
+                        {{#if claimed_status}}
+                        <div class="claimed-badge">✓ Claimed</div>
+                        {{/if}}
+                        <div class="badge badge-gold">
+                            <div class="badge-dot"></div>
+                            Ultra-Luxury
                         </div>
-                        <div class="text-4xl font-bold text-emerald-500 mb-2">{{#if overall_score}}{{overall_score}}{{#unless (contains overall_score '.')}}{{#unless (eq overall_score '0')}}.0{{/unless}}{{/unless}}{{else}}0.0{{/if}}<span class="text-gray-400">/10</span></div>
-                        <p class="text-gray-600 text-sm leading-relaxed max-w-md">
-                            We use a proprietary 10-point scoring system to evaluate the best luxury hotels and experiences.
-                            Scoring is carefully evaluated based on guest reviews, expert assessments, and luxury standards.
-                        </p>
+                        <div class="badge badge-green">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                            </svg>
+                            Exceptional Experience
+                        </div>
+                    </div>
+
+                    <div class="title-section">
+                        <div class="title-row">
+                            <h1 class="title">{{hotel_name}}</h1>
+                        </div>
+                        {{#if address}}
+                        <a href="{{address_google_maps_link}}" target="_blank" class="address-link">{{address}}</a>
+                        {{/if}}
                     </div>
                     
-                    <!-- Right side - Score breakdown -->
-                    <div class="space-y-3 ml-8">
-                        <div class="flex items-center justify-between min-w-80">
-                            <div class="flex items-center">
-                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">🏨</div>
-                                <span class="font-medium text-gray-900">Accommodation Quality</span>
-                            </div>
-                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{#if accommodation_quality_score}}{{accommodation_quality_score}}{{#unless (contains accommodation_quality_score '.')}}{{#unless (eq accommodation_quality_score '0')}}.0{{/unless}}{{/unless}}{{else}}0.0{{/if}}</div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">🍽️</div>
-                                <span class="font-medium text-gray-900">Dining & Amenities</span>
-                            </div>
-                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{#if dining_amenities_score}}{{dining_amenities_score}}{{#unless (contains dining_amenities_score '.')}}{{#unless (eq dining_amenities_score '0')}}.0{{/unless}}{{/unless}}{{else}}0.0{{/if}}</div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">✨</div>
-                                <span class="font-medium text-gray-900">Ambience & Design</span>
-                            </div>
-                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{#if ambience_design_score}}{{ambience_design_score}}{{#unless (contains ambience_design_score '.')}}{{#unless (eq ambience_design_score '0')}}.0{{/unless}}{{/unless}}{{else}}0.0{{/if}}</div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">💎</div>
-                                <span class="font-medium text-gray-900">Value & Service</span>
-                            </div>
-                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{#if value_service_score}}{{value_service_score}}{{#unless (contains value_service_score '.')}}{{#unless (eq value_service_score '0')}}.0{{/unless}}{{/unless}}{{else}}0.0{{/if}}</div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">📍</div>
-                                <span class="font-medium text-gray-900">Location & Accessibility</span>
-                            </div>
-                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{#if location_accessibility_score}}{{location_accessibility_score}}{{#unless (contains location_accessibility_score '.')}}{{#unless (eq location_accessibility_score '0')}}.0{{/unless}}{{/unless}}{{else}}0.0{{/if}}</div>
-                        </div>
+                    <div class="star-rating">
+                        {{#each star_rating}}
+                        <span class="star">{{this}}</span>
+                        {{/each}}
+                        <span class="star-text">{{star_rating_text}}</span>
+                        <span style="margin-left: 1rem; color: #111827; font-weight: 600;">{{price_indicator}}</span>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="shareLink()">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                            </svg>
+                            Share Link
+                        </button>
+                        {{#if phone_url}}
+                        <a href="{{phone_url}}" class="action-btn">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            Call
+                        </a>
+                        {{/if}}
+                        {{#if book_link}}
+                        <a href="{{book_link}}" target="_blank" class="action-btn primary">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            Book Now
+                        </a>
+                        {{/if}}
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Review Sentiment & Best Times -->
-        {{#if public_review_sentiment}}
-        <section class="mb-8">
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                <div class="font-semibold text-blue-900 mb-2">Public Review Sentiment</div>
-                <div class="text-sm text-blue-800 mb-2">
-                    <svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <a href="#rating-section" class="nav-tab active" onclick="scrollToSection('rating-section')">Rating</a>
+                <a href="#details-section" class="nav-tab" onclick="scrollToSection('details-section')">Details</a>
+                <a href="#location-section" class="nav-tab" onclick="scrollToSection('location-section')">Location</a>
+                {{#if faq_1}}
+                <a href="#faq-section" class="nav-tab" onclick="scrollToSection('faq-section')">FAQ</a>
+                {{/if}}
+            </div>
+
+            <!-- Rating Section -->
+            <section id="rating-section" class="content-section">
+                <div class="score-section">
+                    <div class="score-circle">{{overall_score}}</div>
+                    <div class="score-info">
+                        <div class="verified-badge">✓ Verified</div>
+                        <div class="score-title">Overall Experience Score</div>
+                        <div class="score-subtitle">
+                            Based on accommodation quality, dining, ambience, value, service, and location accessibility
+                        </div>
+                    </div>
+                </div>
+
+                <div class="score-breakdown">
+                    <div class="score-item">
+                        <div class="score-label">
+                            <div class="score-icon">🏨</div>
+                            Accommodation Quality
+                        </div>
+                        <div class="score-value">{{accommodation_quality_score}}</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-label">
+                            <div class="score-icon">🍽️</div>
+                            Dining & Amenities
+                        </div>
+                        <div class="score-value">{{dining_amenities_score}}</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-label">
+                            <div class="score-icon">✨</div>
+                            Ambience & Design
+                        </div>
+                        <div class="score-value">{{ambience_design_score}}</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-label">
+                            <div class="score-icon">💰</div>
+                            Value & Service
+                        </div>
+                        <div class="score-value">{{value_service_score}}</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-label">
+                            <div class="score-icon">📍</div>
+                            Location & Accessibility
+                        </div>
+                        <div class="score-value">{{location_accessibility_score}}</div>
+                    </div>
+                </div>
+
+                {{#if public_review_sentiment}}
+                <div class="info-card">
+                    <h3>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.013 8.013 0 01-7-4.565c.25-.333.5-.667.75-1.002A7.994 7.994 0 0012 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8c0 1.5.4 2.9 1.1 4.1l-1.1 2.9 2.9-1.1c1.2.7 2.6 1.1 4.1 1.1z" />
+                        </svg>
+                        Guest Reviews Summary
+                    </h3>
+                    <p>{{public_review_sentiment}}</p>
+                </div>
+                {{/if}}
+
+                {{#if best_times_to_stay}}
+                <div class="info-card">
+                    <h3>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Best Times to Stay
+                    </h3>
+                    <p>{{best_times_to_stay}}</p>
+                </div>
+                {{/if}}
+            </section>
+
+            <!-- Details Section -->
+            <section id="details-section" class="content-section">
+                <h2 class="section-title">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    Based on {{reviews_count}} Google Reviews
-                </div>
-                <p class="text-blue-800 leading-relaxed">{{public_review_sentiment}}</p>
-            </div>
+                    Hotel Details
+                </h2>
 
-            {{#if best_times_to_stay}}
-            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <div class="font-semibold text-yellow-900 mb-2">Best Times to Stay at {{hotel_name}}</div>
-                <p class="text-yellow-800 mb-3 leading-relaxed">{{best_times_to_stay}}</p>
-                <div class="flex flex-wrap gap-4">
-                    <div class="flex items-center">
-                        <div class="w-3 h-3 bg-red-400 rounded-full mr-2"></div>
-                        <span class="text-sm text-yellow-700 font-medium mr-2">Busiest</span>
-                        <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">December - January</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-3 h-3 bg-emerald-400 rounded-full mr-2"></div>
-                        <span class="text-sm text-yellow-700 font-medium mr-2">Relaxed</span>
-                        <span class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded text-xs">May - September</span>
+                {{#if description}}
+                <div class="info-card">
+                    <h3>About {{hotel_name}}</h3>
+                    <p>{{description}}</p>
+                </div>
+                {{/if}}
+
+                {{#if tags}}
+                <div class="info-card">
+                    <h3>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        Amenities
+                    </h3>
+                    <div class="tags">
+                        {{#each tags}}
+                        <span class="tag">{{this}}</span>
+                        {{/each}}
                     </div>
                 </div>
-            </div>
-            {{/if}}
-        </section>
-        {{/if}}
+                {{/if}}
 
-        <!-- Amenities -->
-        {{#if amenities}}
-        <section class="mb-8">
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                <h3 class="flex items-center text-lg font-semibold text-gray-900 mb-4">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                <div class="info-card">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h3 style="margin: 0;">Check-in Time</h3>
+                    </div>
+                    <p style="margin: 0; font-size: 1rem; color: #374151;">{{check_in}}</p>
+                </div>
+
+                <div class="info-card">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h3 style="margin: 0;">Check-out Time</h3>
+                    </div>
+                    <p style="margin: 0; font-size: 1rem; color: #374151;">{{check_out}}</p>
+                </div>
+            </section>
+
+            <!-- Location Section -->
+            <section id="location-section" class="content-section">
+                <h2 class="section-title">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    Amenities
-                </h3>
-                <div class="flex flex-wrap gap-2">
-                    {{#each amenities}}
-                    <span class="bg-gray-100 text-gray-700 px-3 py-2 rounded-full text-sm font-medium">{{this}}</span>
-                    {{/each}}
-                </div>
-            </div>
+                    Location & Contact
+                </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                    <div class="flex items-center mb-3">
-                        <svg class="w-5 h-5 mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <h4 class="font-semibold text-gray-900">Check-in Time</h4>
+                <div class="location-grid">
+                    {{#if address}}
+                    <div class="location-item">
+                        <div>
+                            <div class="location-label">Address</div>
+                            <div class="location-value">{{address}}</div>
+                        </div>
+                        {{#if address_google_maps_link}}
+                        <a href="{{address_google_maps_link}}" target="_blank" class="location-button primary">
+                            View Map
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                        {{/if}}
                     </div>
-                    <p class="text-gray-700 text-base">{{check_in}}</p>
-                </div>
+                    {{/if}}
 
-                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                    <div class="flex items-center mb-3">
-                        <svg class="w-5 h-5 mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <h4 class="font-semibold text-gray-900">Check-out Time</h4>
+                    {{#if website}}
+                    <div class="location-item">
+                        <div>
+                            <div class="location-label">Website</div>
+                            <div class="location-value">{{website}}</div>
+                        </div>
+                        {{#if book_link}}
+                        <a href="{{book_link}}" target="_blank" class="location-button primary">
+                            Visit Website
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                        {{/if}}
                     </div>
-                    <p class="text-gray-700 text-base">{{check_out}}</p>
-                </div>
+                    {{/if}}
 
-                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                    <div class="flex items-center mb-3">
-                        <svg class="w-5 h-5 mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-                        </svg>
-                        <h4 class="font-semibold text-gray-900">Price</h4>
+                    {{#if phone_number}}
+                    <div class="location-item">
+                        <div>
+                            <div class="location-label">Phone</div>
+                            <div class="location-value">{{phone_number}}</div>
+                        </div>
+                        {{#if phone_url}}
+                        <a href="{{phone_url}}" class="location-button">
+                            Call
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                        </a>
+                        {{/if}}
                     </div>
-                    <p class="text-gray-700 text-base">{{price_range}}</p>
-                </div>
-            </div>
-        </section>
-        {{/if}}
+                    {{/if}}
 
-        <!-- Location Section -->
-        <section id="location" class="mb-8">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6 pb-2 border-b-2 border-gold inline-block">Location</h2>
-            
-            {{#if address_google_maps_link}}
-            <div class="relative mb-6 rounded-xl overflow-hidden">
-                <iframe 
-                    src="https://maps.google.com/maps?q={{latitude}},{{longitude}}&hl=en&z=15&output=embed" 
-                    class="w-full h-48 border-0"
-                    allowfullscreen 
-                    loading="lazy">
-                </iframe>
-                <a href="{{address_google_maps_link}}" target="_blank" class="absolute top-3 left-3 bg-white text-blue-600 px-3 py-2 rounded-lg text-sm font-medium shadow-lg hover:bg-gray-50 transition-colors">
-                    View larger map
-                </a>
-            </div>
+                    {{#if getting_there}}
+                    <div class="location-item">
+                        <div>
+                            <div class="location-label">Getting There</div>
+                            <div class="location-value">{{getting_there}}</div>
+                        </div>
+                        {{#if directions_url}}
+                        <a href="{{directions_url}}" target="_blank" class="location-button">
+                            Directions
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                        {{/if}}
+                    </div>
+                    {{/if}}
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            {{#if faq_1}}
+            <section id="faq-section" class="content-section">
+                <h2 class="section-title">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Frequently Asked Questions
+                </h2>
+
+                {{#if faq_1}}
+                <div class="faq-item">
+                    <div class="faq-question">{{faq_1}}</div>
+                    <div class="faq-answer">{{answer_1}}</div>
+                </div>
+                {{/if}}
+
+                {{#if faq_2}}
+                <div class="faq-item">
+                    <div class="faq-question">{{faq_2}}</div>
+                    <div class="faq-answer">{{answer_2}}</div>
+                </div>
+                {{/if}}
+
+                {{#if faq_3}}
+                <div class="faq-item">
+                    <div class="faq-question">{{faq_3}}</div>
+                    <div class="faq-answer">{{answer_3}}</div>
+                </div>
+                {{/if}}
+
+                {{#if faq_4}}
+                <div class="faq-item">
+                    <div class="faq-question">{{faq_4}}</div>
+                    <div class="faq-answer">{{answer_4}}</div>
+                </div>
+                {{/if}}
+
+                {{#if faq_5}}
+                <div class="faq-item">
+                    <div class="faq-question">{{faq_5}}</div>
+                    <div class="faq-answer">{{answer_5}}</div>
+                </div>
+                {{/if}}
+            </section>
             {{/if}}
-
-            <div class="space-y-0 divide-y divide-gray-100">
-                <div class="flex justify-between items-center py-4">
-                    <div>
-                        <div class="font-semibold text-gray-900 text-sm mb-1">Neighborhood</div>
-                        <div class="text-gray-600 text-sm">{{neighbourhood}}</div>
-                    </div>
-                </div>
-
-                <div class="flex justify-between items-center py-4">
-                    <div>
-                        <div class="font-semibold text-gray-900 text-sm mb-1">Address</div>
-                        <div class="text-gray-600 text-sm">{{address}}</div>
-                    </div>
-                    {{#if directions_url}}
-                    <a href="{{directions_url}}" target="_blank" class="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors flex items-center">
-                        Get Directions
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                        </svg>
-                    </a>
-                    {{/if}}
-                </div>
-
-                {{#if website}}
-                <div class="flex justify-between items-center py-4">
-                    <div>
-                        <div class="font-semibold text-gray-900 text-sm mb-1">Website</div>
-                        <div class="text-gray-600 text-sm">{{website}}</div>
-                    </div>
-                    {{#if book_link}}
-                    <a href="{{book_link}}" target="_blank" class="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center">
-                        Visit Website
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                        </svg>
-                    </a>
-                    {{/if}}
-                </div>
-                {{/if}}
-
-                {{#if phone_formatted}}
-                <div class="flex justify-between items-center py-4">
-                    <div>
-                        <div class="font-semibold text-gray-900 text-sm mb-1">Phone</div>
-                        <div class="text-gray-600 text-sm">{{phone_formatted}}</div>
-                    </div>
-                    {{#if phone_url}}
-                    <a href="{{phone_url}}" class="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors flex items-center">
-                        Call
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                        </svg>
-                    </a>
-                    {{/if}}
-                </div>
-                {{/if}}
-
-                {{#if getting_there}}
-                <div class="py-4">
-                    <div class="font-semibold text-gray-900 text-sm mb-2">Getting There</div>
-                    <div class="text-gray-600 text-sm leading-relaxed whitespace-pre-line">{{getting_there}}</div>
-                </div>
-                {{/if}}
-            </div>
-        </section>
-
-        <!-- FAQs Section -->
-        {{#if faqs}}
-        <section id="faqs" class="mb-8" itemscope itemtype="https://schema.org/FAQPage">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6 pb-2 border-b-2 border-gold inline-block">Frequently Asked Questions</h2>
-            <div class="space-y-4">
-                {{#each faqs}}
-                <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <h3 class="text-lg font-semibold text-blue-600 mb-3" itemprop="name">{{question}}</h3>
-                    <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p class="text-gray-700 leading-relaxed" itemprop="text">{{answer}}</p>
-                    </div>
-                </div>
-                {{/each}}
-            </div>
-        </section>
-        {{/if}}
+        </div>
     </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Link copied to clipboard!</div>
 
     <script>
         function shareLink() {
-            const pageUrl = '{{page_url}}' || window.location.href;
-            const shareBtn = document.getElementById('shareBtn');
-            const shareText = document.getElementById('shareText');
+            const pageUrl = window.location.href;
             
-            navigator.clipboard.writeText(pageUrl).then(function() {
-                shareText.textContent = 'Copied';
-                shareBtn.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-700');
-                shareBtn.classList.remove('bg-white', 'border-gray-300', 'text-gray-700');
-                
-                setTimeout(function() {
-                    shareText.textContent = 'Share Link';
-                    shareBtn.classList.remove('bg-emerald-50', 'border-emerald-300', 'text-emerald-700');
-                    shareBtn.classList.add('bg-white', 'border-gray-300', 'text-gray-700');
-                }, 2000);
-            }).catch(function() {
-                const textArea = document.createElement('textarea');
-                textArea.value = pageUrl;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                
-                shareText.textContent = 'Copied';
-                shareBtn.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-700');
-                shareBtn.classList.remove('bg-white', 'border-gray-300', 'text-gray-700');
-                
-                setTimeout(function() {
-                    shareText.textContent = 'Share Link';
-                    shareBtn.classList.remove('bg-emerald-50', 'border-emerald-300', 'text-emerald-700');
-                    shareBtn.classList.add('bg-white', 'border-gray-300', 'text-gray-700');
-                }, 2000);
-            });
+            // Try to use the modern clipboard API
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(pageUrl).then(function() {
+                    showToast();
+                }).catch(function() {
+                    fallbackCopyTextToClipboard(pageUrl);
+                });
+            } else {
+                fallbackCopyTextToClipboard(pageUrl);
+            }
         }
 
-        // Show premium badge only if claimed_status equals 'claimed'
-        document.addEventListener('DOMContentLoaded', function() {
-            const claimedStatus = '{{claimed_status}}';
-            const premiumBadge = document.getElementById('premium-badge');
-            if (claimedStatus !== 'claimed' && premiumBadge) {
-                premiumBadge.style.display = 'none';
-            }
-        });
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            showToast();
+        }
 
-        function scrollToSection(sectionId, tab) {
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(function() {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
                 element.scrollIntoView({ 
@@ -517,28 +954,18 @@
                     block: 'start'
                 });
                 
-                document.querySelectorAll('.nav-tab').forEach(t => {
-                    t.classList.remove('text-gray-900', 'border-gold');
-                    t.classList.add('text-gray-500', 'border-transparent');
+                // Update active tab
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    tab.classList.remove('active');
                 });
                 
-                tab.classList.remove('text-gray-500', 'border-transparent');
-                tab.classList.add('text-gray-900', 'border-gold');
+                event.target.classList.add('active');
             }
         }
 
-        // Initialize first tab as active
-        document.addEventListener('DOMContentLoaded', function() {
-            const firstTab = document.querySelector('.nav-tab');
-            if (firstTab) {
-                firstTab.classList.remove('text-gray-500', 'border-transparent');
-                firstTab.classList.add('text-gray-900', 'border-gold');
-            }
-        });
-
-        // Handle scroll-based navigation highlighting
+        // Add active state to navigation tabs based on scroll position
         window.addEventListener('scroll', function() {
-            const sections = ['rating', 'details', 'location', 'faqs'];
+            const sections = ['rating-section', 'details-section', 'location-section', 'faq-section'];
             const navTabs = document.querySelectorAll('.nav-tab');
             
             let currentSection = '';
@@ -554,12 +981,9 @@
             });
             
             navTabs.forEach((tab, index) => {
-                tab.classList.remove('text-gray-900', 'border-gold');
-                tab.classList.add('text-gray-500', 'border-transparent');
-                
+                tab.classList.remove('active');
                 if (sections[index] === currentSection) {
-                    tab.classList.remove('text-gray-500', 'border-transparent');
-                    tab.classList.add('text-gray-900', 'border-gold');
+                    tab.classList.add('active');
                 }
             });
         });
