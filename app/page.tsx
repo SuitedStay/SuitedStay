@@ -20,6 +20,12 @@ function HotelCard({ hotel, index }: { hotel: any; index: number }) {
   }
 
   const goldColor = '#c5a46d'
+  
+  // Format score to always show 1 decimal place
+  const formatScore = (score: any) => {
+    const numScore = parseFloat(score || 0)
+    return numScore.toFixed(1)
+  }
 
   return (
     <a href={`/hotels/${hotel.slug}`} className="block">
@@ -35,7 +41,7 @@ function HotelCard({ hotel, index }: { hotel: any; index: number }) {
           )}
           <div className="absolute top-3 left-3">
             <div className="bg-emerald-500 text-white text-sm font-bold w-12 h-12 rounded-xl flex items-center justify-center">
-              {hotel.overall_score || '9.0'}
+              {formatScore(hotel.overall_score)}
             </div>
           </div>
           <div className="absolute bottom-3 left-3">
