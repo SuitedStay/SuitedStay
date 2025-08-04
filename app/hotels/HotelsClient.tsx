@@ -125,7 +125,7 @@ export default function HotelsClient({ initialHotels }: HotelsClientProps) {
         {hotel.overall_score && (
           <div className="absolute top-3 right-3">
             <span className="bg-green-500 text-white font-semibold px-2 py-1 rounded-lg text-sm">
-              {hotel.overall_score}
+              {parseFloat(hotel.overall_score.toString()).toFixed(1)}
             </span>
           </div>
         )}
@@ -149,25 +149,27 @@ export default function HotelsClient({ initialHotels }: HotelsClientProps) {
           )}
         </div>
 
-        {hotel.tags && (
+        {hotel.amenities && (
           <div className="flex flex-wrap gap-1 mt-2">
-            {Array.isArray(hotel.tags) ? (
+            {Array.isArray(hotel.amenities) ? (
               <>
-                {hotel.tags.slice(0, 3).map((tag, index) => (
+                {hotel.amenities.slice(0, 3).map((amenity, index) => (
                   <span key={index} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
-                    {tag}
+                    {amenity}
                   </span>
                 ))}
-                {hotel.tags.length > 3 && (
+                {hotel.amenities.length > 3 && (
                   <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
-                    +{hotel.tags.length - 3} more
+                    +{hotel.amenities.length - 3} more
                   </span>
                 )}
               </>
-            ) : typeof hotel.tags === 'string' ? (
-              <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
-                {hotel.tags}
-              </span>
+            ) : typeof hotel.amenities === 'string' ? (
+              hotel.amenities.split(',').slice(0, 3).map((amenity, index) => (
+                <span key={index} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                  {amenity.trim()}
+                </span>
+              ))
             ) : null}
           </div>
         )}
