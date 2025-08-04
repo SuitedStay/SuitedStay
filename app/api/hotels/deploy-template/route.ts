@@ -37,57 +37,68 @@ export async function POST(request: NextRequest) {
       console.warn('FAQ fetch error:', faqError)
     }
 
-    // Map to template data using actual Supabase column names
+    // Map to template data - FIXED FIELD NAMES to match artifact template
     const templateData = {
+      // Basic hotel info
       hotel_name: hotel.hotel_name || 'Luxury Hotel',
-      hotel_slug: hotel.slug || slug,
+      slug: hotel.slug || slug,
       city: hotel.city || '',
       country: hotel.country || '',
-      hotel_description: hotel.description || '',
-      overall_score: hotel.overall_score || '0.0',
-      accommodation_score: hotel.accommodation_quality_score || '0.0',
-      dining_score: hotel.dining_amenities_score || '0.0',
-      ambience_score: hotel.ambience_design_score || '0.0',
-      value_service_score: hotel.value_service_score || '0.0',
-      location_score: hotel.location_accessibility_score || '0.0',
+      description: hotel.description || '', // Fixed: was hotel_description
       address: hotel.address || 'Address not available',
       neighbourhood: hotel.neighbourhood || '',
+      
+      // Scores - Fixed to match template
+      overall_score: hotel.overall_score || '0.0',
+      accommodation_quality_score: hotel.accommodation_quality_score || '0.0', // Fixed
+      dining_amenities_score: hotel.dining_amenities_score || '0.0', // Fixed
+      ambience_design_score: hotel.ambience_design_score || '0.0', // Fixed
+      value_service_score: hotel.value_service_score || '0.0',
+      location_accessibility_score: hotel.location_accessibility_score || '0.0', // Fixed
+      
+      // Contact & booking
       website: hotel.website || '',
-      booking_link: hotel.book_link || '',
-      phone_number: hotel.phone_formatted || '',
+      book_link: hotel.book_link || '',
+      phone_formatted: hotel.phone_formatted || '',
       phone_url: hotel.phone_url || '',
-      check_in_time: hotel.check_in || '3:00 PM',
-      check_out_time: hotel.check_out || '12:00 PM',
+      
+      // Times & pricing
+      check_in: hotel.check_in || '3:00 PM',
+      check_out: hotel.check_out || '12:00 PM',
       price_indicator: hotel.price_indicator || '$$$$',
       price_range: hotel.price_range || '',
-      star_rating: hotel.star_rating_icons ? hotel.star_rating_icons.split('') : ['★', '★', '★', '★', '★'],
-      claimed_status: hotel.claimed_status || false,
-      hero_photo: hotel.hero_photo_url || '',
-      google_map_url: hotel.address_google_maps_link || '',
+      
+      // Star rating
+      star_rating_text: hotel.star_rating_text || '',
+      star_rating_icons: hotel.star_rating_icons || '',
+      
+      // Status & media
+      claimed_status: hotel.claimed_status || 'unclaimed',
+      hero_photo_url: hotel.hero_photo_url || '',
+      
+      // Location data
+      address_google_maps_link: hotel.address_google_maps_link || '',
       directions_url: hotel.directions_url || '',
-      public_review_sentiment: hotel.public_review_sentiment || '',
-      best_times_to_stay: hotel.best_times_to_stay || '',
-      getting_there: hotel.getting_there || '',
-      tags: hotel.tags ? (Array.isArray(hotel.tags) ? hotel.tags : hotel.tags.split(',')) : [],
-      amenities: hotel.amenities ? (Array.isArray(hotel.amenities) ? hotel.amenities : hotel.amenities.split(',')) : [],
-      reviews_count: hotel.reviews_count || 0,
       latitude: hotel.latitude || '',
       longitude: hotel.longitude || '',
-      city_slug: hotel.city ? hotel.city.toLowerCase().replace(/\s+/g, '-') : '',
+      getting_there: hotel.getting_there || '',
+      
+      // Reviews & sentiment
+      reviews_count: hotel.reviews_count || 0,
+      public_review_sentiment: hotel.public_review_sentiment || '',
+      best_times_to_stay: hotel.best_times_to_stay || '',
+      
+      // Arrays
+      amenities: hotel.amenities ? (Array.isArray(hotel.amenities) ? hotel.amenities : hotel.amenities.split(',')) : [],
+      tags: hotel.tags ? (Array.isArray(hotel.tags) ? hotel.tags : hotel.tags.split(',')) : [],
+      
+      // SEO & schema
+      page_url: hotel.page_url || `https://suitedstay.com/hotels/${hotel.slug}`,
       schema_data: hotel.schema_data || '',
       faq_schema: hotel.faq_schema || '',
       
-      // Map FAQs from the separate table
-      faq_1: (faqs && faqs[0]) ? faqs[0].question : '',
-      answer_1: (faqs && faqs[0]) ? faqs[0].answer : '',
-      faq_2: (faqs && faqs[1]) ? faqs[1].question : '',
-      answer_2: (faqs && faqs[1]) ? faqs[1].answer : '',
-      faq_3: (faqs && faqs[2]) ? faqs[2].question : '',
-      answer_3: (faqs && faqs[2]) ? faqs[2].answer : '',
-      faq_4: (faqs && faqs[3]) ? faqs[3].question : '',
-      answer_4: (faqs && faqs[3]) ? faqs[3].answer : '',
-      faq_5: (faqs && faqs[4]) ? faqs[4].question : '',
-      answer_5: (faqs && faqs[4]) ? faqs[4].answer : ''
+      // FAQs - convert to array format for template
+      faqs: faqs || []
     }
 
     // Load and compile template
@@ -117,7 +128,7 @@ export async function POST(request: NextRequest) {
       message: 'Hotel page created and saved successfully',
       hotel_name: templateData.hotel_name,
       faq_count: faqs ? faqs.length : 0,
-      url: `https://suited-stay.vercel.app/hotels/${templateData.hotel_slug}`,
+      url: `https://suited-stay.vercel.app/hotels/${templateData.slug}`,
       hotel_id: hotel_id
     })
 
