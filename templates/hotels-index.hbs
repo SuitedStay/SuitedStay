@@ -398,9 +398,12 @@
     </div>
 
     <script>
+        // Hotels data passed from server
+        const hotelsData = {{{hotelsJson}}};
+        
         function hotelFilter() {
             return {
-                hotels: {{{JSON.stringify hotels}}},
+                hotels: hotelsData,
                 filteredHotels: [],
                 sortedHotels: [],
                 showMobileFilters: false,

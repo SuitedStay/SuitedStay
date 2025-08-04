@@ -108,15 +108,20 @@
     </div>
     {{/if}}
 
-    <!-- Tags -->
+    <!-- Tags (simplified without helpers) -->
     {{#if hotel.tags}}
     <div class="flex flex-wrap gap-1">
-      {{#limit hotel.tags 3}}
+      {{#each hotel.tags}}
+      {{#if @first}}
       <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">{{this}}</span>
-      {{/limit}}
-      {{#if (gt hotel.tags.length 3)}}
-      <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">+{{subtract hotel.tags.length 3}} more</span>
       {{/if}}
+      {{#if @second}}
+      <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">{{this}}</span>
+      {{/if}}
+      {{#if @third}}
+      <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">{{this}}</span>
+      {{/if}}
+      {{/each}}
     </div>
     {{/if}}
   </div>

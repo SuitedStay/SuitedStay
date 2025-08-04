@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 import Handlebars from 'handlebars'
 import fs from 'fs'
 import path from 'path'
-import { registerHelpers } from '../../lib/handlebars-helpers'
 
 // Create Supabase client with error handling
 function createSupabaseClient() {
@@ -17,6 +16,9 @@ function createSupabaseClient() {
 
   return createClient(supabaseUrl, supabaseKey)
 }
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
 
 export default async function HotelsIndexPage() {
   const supabase = createSupabaseClient()
@@ -57,8 +59,31 @@ export default async function HotelsIndexPage() {
     </div>
   }
 
-  // Register Handlebars helpers
-  registerHelpers()
+  // Register essential Handlebars helpers inline
+  Handlebars.registerHelper('eq', function (a, b) {
+    return a === b
+  })
+
+  Handlebars.registerHelper('gt', function (a, b) {
+    return a > b
+  })
+
+  Handlebars.registerHelper('subtract', function (a, b) {
+    return a - b
+  })
+
+  Handlebars.registerHelper('limit', function (arr, limit, options) {
+    if (!Array.isArray(arr)) return ''
+    
+    let result = ''
+    const end = Math.min(arr.length, limit)
+    
+    for (let i = 0; i < end; i++) {
+      result += options.fn(arr[i])
+    }
+    
+    return result
+  })
 
   // Register hotelCard partial
   try {
@@ -115,7 +140,8 @@ export default async function HotelsIndexPage() {
   const templateData = {
     page_title: 'Best Hotels',
     page_subtitle: 'Explore the world\'s finest accommodations, from opulent beachfront resorts to sleek city-center hotels. Indulge in world-class luxury, innovative designs, and impeccable service.',
-    hotels: hotels || []
+    hotels: hotels || [],
+    hotelsJson: JSON.stringify(hotels || [])
   }
 
   // Render the template
