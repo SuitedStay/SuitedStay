@@ -21,10 +21,6 @@ const Footer = () => {
     </svg>
   )
 
-const Footer = () => {
-  const [email, setEmail] = useState('')
-  const [showStickyCTA, setShowStickyCTA] = useState(true)
-
   return (
     <>
       {/* Sticky CTA */}
