@@ -222,7 +222,7 @@
                         <div class="bg-gray-900 text-white px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1 mb-4">
                             ✓ SuitedStay Verified
                         </div>
-                        <div class="text-4xl font-bold text-emerald-500 mb-2">{{overall_score}}<span class="text-gray-400">/10</span></div>
+                        <div class="text-4xl font-bold text-emerald-500 mb-2">{{#if overall_score}}{{overall_score}}{{#unless (contains overall_score '.')}}{{#unless (eq overall_score '0')}}.0{{/unless}}{{/unless}}{{else}}0.0{{/if}}<span class="text-gray-400">/10</span></div>
                         <p class="text-gray-600 text-sm leading-relaxed max-w-md">
                             We use a proprietary 10-point scoring system to evaluate the best luxury hotels and experiences.
                             Scoring is carefully evaluated based on guest reviews, expert assessments, and luxury standards.
@@ -236,7 +236,7 @@
                                 <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">🏨</div>
                                 <span class="font-medium text-gray-900">Accommodation Quality</span>
                             </div>
-                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{accommodation_quality_score}}</div>
+                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{#if accommodation_quality_score}}{{accommodation_quality_score}}{{#unless (contains accommodation_quality_score '.')}}{{#unless (eq accommodation_quality_score '0')}}.0{{/unless}}{{/unless}}{{else}}0.0{{/if}}</div>
                         </div>
                         
                         <div class="flex items-center justify-between">
@@ -244,7 +244,7 @@
                                 <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">🍽️</div>
                                 <span class="font-medium text-gray-900">Dining & Amenities</span>
                             </div>
-                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{dining_amenities_score}}</div>
+                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{#if dining_amenities_score}}{{dining_amenities_score}}{{#unless (contains dining_amenities_score '.')}}{{#unless (eq dining_amenities_score '0')}}.0{{/unless}}{{/unless}}{{else}}0.0{{/if}}</div>
                         </div>
                         
                         <div class="flex items-center justify-between">
@@ -252,7 +252,7 @@
                                 <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">✨</div>
                                 <span class="font-medium text-gray-900">Ambience & Design</span>
                             </div>
-                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{ambience_design_score}}</div>
+                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{#if ambience_design_score}}{{ambience_design_score}}{{#unless (contains ambience_design_score '.')}}{{#unless (eq ambience_design_score '0')}}.0{{/unless}}{{/unless}}{{else}}0.0{{/if}}</div>
                         </div>
                         
                         <div class="flex items-center justify-between">
@@ -260,7 +260,7 @@
                                 <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">💎</div>
                                 <span class="font-medium text-gray-900">Value & Service</span>
                             </div>
-                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{value_service_score}}</div>
+                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{#if value_service_score}}{{value_service_score}}{{#unless (contains value_service_score '.')}}{{#unless (eq value_service_score '0')}}.0{{/unless}}{{/unless}}{{else}}0.0{{/if}}</div>
                         </div>
                         
                         <div class="flex items-center justify-between">
@@ -268,7 +268,7 @@
                                 <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-3 text-xs">📍</div>
                                 <span class="font-medium text-gray-900">Location & Accessibility</span>
                             </div>
-                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{location_accessibility_score}}</div>
+                            <div class="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-bold">{{#if location_accessibility_score}}{{location_accessibility_score}}{{#unless (contains location_accessibility_score '.')}}{{#unless (eq location_accessibility_score '0')}}.0{{/unless}}{{/unless}}{{else}}0.0{{/if}}</div>
                         </div>
                     </div>
                 </div>
@@ -288,7 +288,6 @@
                     Based on {{reviews_count}} Google Reviews
                 </div>
                 <p class="text-blue-800 leading-relaxed">{{public_review_sentiment}}</p>
-                <p class="text-xs text-blue-600 mt-2">Last Updated 1 Aug 2025</p>
             </div>
 
             {{#if best_times_to_stay}}
