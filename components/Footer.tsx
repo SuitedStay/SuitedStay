@@ -20,14 +20,15 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        {/* Force horizontal layout on desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8 lg:gap-12">
-          {/* Left: Logo & Pitch - Takes 2 columns on large screens */}
-          <div className="lg:col-span-2 md:col-span-2">
-            <div className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
+        {/* Desktop: 4 columns, Mobile: 1 column */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
+          
+          {/* Column 1: SuitedStay Logo + Social Icons */}
+          <div>
+            <div className="text-2xl font-bold mb-6" style={{ fontFamily: 'var(--font-playfair)' }}>
               SuitedStay
             </div>
-            <p className="text-gray-300 mb-6 max-w-md">
+            <p className="text-gray-300 mb-6">
               Curating the world's most exclusive luxury hotels for discerning travelers.
             </p>
             <div className="flex gap-4">
@@ -43,41 +44,42 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Explore Column */}
-          <div className="md:col-span-1">
+          {/* Column 2: Explore */}
+          <div>
             <h3 className="font-semibold text-lg mb-6 text-white">Explore</h3>
             <ul className="space-y-4">
               <li>
-                <a href="/hotels" className="text-gray-300 hover:text-white transition-colors block">
+                <a href="/hotels" className="text-gray-300 hover:text-white transition-colors">
                   All Hotels
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Partners Column */}
-          <div className="md:col-span-1">
+          {/* Column 3: Partners */}
+          <div>
             <h3 className="font-semibold text-lg mb-6 text-white">Partners</h3>
             <ul className="space-y-4">
               <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors block">
+                <a href="#" className="text-gray-300 hover:text-white transition-colors">
                   Partnership Program
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Support Column */}
-          <div className="md:col-span-1">
+          {/* Column 4: Support */}
+          <div>
             <h3 className="font-semibold text-lg mb-6 text-white">Support</h3>
             <ul className="space-y-4">
               <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors block">
+                <a href="#" className="text-gray-300 hover:text-white transition-colors">
                   Privacy Policy
                 </a>
               </li>
             </ul>
           </div>
+
         </div>
 
         {/* Copyright */}
