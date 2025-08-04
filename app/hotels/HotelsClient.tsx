@@ -16,8 +16,8 @@ interface Hotel {
   star_rating_text: string
   price_indicator: string
   price_range: string
-  tags: string[]
-  amenities: string[]
+  tags: string[] | string | null
+  amenities: string[] | string | null
   accommodation_quality_score: number
   dining_amenities_score: number
   ambience_design_score: number
@@ -149,18 +149,26 @@ export default function HotelsClient({ initialHotels }: HotelsClientProps) {
           )}
         </div>
 
-        {hotel.tags && hotel.tags.length > 0 && (
+        {hotel.tags && (
           <div className="flex flex-wrap gap-1 mt-2">
-            {hotel.tags.slice(0, 3).map((tag, index) => (
-              <span key={index} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
-                {tag}
-              </span>
-            ))}
-            {hotel.tags.length > 3 && (
+            {Array.isArray(hotel.tags) ? (
+              <>
+                {hotel.tags.slice(0, 3).map((tag, index) => (
+                  <span key={index} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                    {tag}
+                  </span>
+                ))}
+                {hotel.tags.length > 3 && (
+                  <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                    +{hotel.tags.length - 3} more
+                  </span>
+                )}
+              </>
+            ) : typeof hotel.tags === 'string' ? (
               <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
-                +{hotel.tags.length - 3} more
+                {hotel.tags}
               </span>
-            )}
+            ) : null}
           </div>
         )}
       </div>
