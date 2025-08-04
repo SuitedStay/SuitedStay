@@ -3,9 +3,14 @@ import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import Footer from '@/components/Footer'
 import GlobalSearchBar from '@/components/GlobalSearchBar'
-import { useRouter } from 'next/navigation'
 
-// ... your existing font and metadata code ...
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
+
+export const metadata: Metadata = {
+  title: 'SuitedStay - The World\'s Most Exclusive Hotels',
+  description: 'Discover ultra-luxury accommodations, from Michelin-starred city escapes to private island retreats.',
+}
 
 export default function RootLayout({
   children,
