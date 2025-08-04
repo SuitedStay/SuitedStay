@@ -97,11 +97,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
   }
 
-  const { data: hotel } = await supabase
-    .from('hotels')
-    .select('hotel_name, description')
-    .eq('slug', params.slug)
-    .single()
+// In your page component, change the select query to:
+const { data: hotel, error } = await supabase
+  .from('hotels')
+  .select('*')
+  .eq('slug', params.slug)
+  .single()
+
+// Add this debug line right after fetching:
+console.log('Current overall_score from Supabase:', hotel?.overall_score)
 
   if (!hotel) {
     return {
