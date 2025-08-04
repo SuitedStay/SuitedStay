@@ -352,38 +352,6 @@
             text-align: center;
         }
         
-        /* Navigation Tabs */
-        .nav-tabs {
-            display: flex;
-            gap: 2rem;
-            border-top: 1px solid #e5e7eb;
-            border-bottom: 1px solid #e5e7eb;
-            margin-bottom: 2rem;
-            overflow-x: auto;
-            padding: 0.75rem 0;
-        }
-        
-        .nav-tab {
-            padding: 0.75rem 0;
-            color: #6b7280;
-            text-decoration: none;
-            font-weight: 500;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-        
-        .nav-tab:hover {
-            color: #374151;
-            border-bottom-color: #d1d5db;
-        }
-        
-        .nav-tab.active {
-            color: #111827;
-            border-bottom-color: #c5a46d;
-        }
-        
         /* Content Sections */
         .content-section {
             margin: 1.5rem 0;
@@ -637,15 +605,7 @@
                 </div>
             </div>
 
-            <!-- Navigation Tabs -->
-            <div class="nav-tabs">
-                <a href="#rating-section" class="nav-tab active" onclick="scrollToSection('rating-section')">Rating</a>
-                <a href="#details-section" class="nav-tab" onclick="scrollToSection('details-section')">Details</a>
-                <a href="#location-section" class="nav-tab" onclick="scrollToSection('location-section')">Location</a>
-                {{#if faq_1}}
-                <a href="#faq-section" class="nav-tab" onclick="scrollToSection('faq-section')">FAQ</a>
-                {{/if}}
-            </div>
+
 
             <!-- Rating Section -->
             <section id="rating-section" class="content-section">
@@ -942,48 +902,6 @@
                 toast.classList.remove('show');
             }, 2000);
         }
-
-        function scrollToSection(sectionId) {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                element.scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-                
-                // Update active tab
-                document.querySelectorAll('.nav-tab').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                
-                event.target.classList.add('active');
-            }
-        }
-
-        // Add active state to navigation tabs based on scroll position
-        window.addEventListener('scroll', function() {
-            const sections = ['rating-section', 'details-section', 'location-section', 'faq-section'];
-            const navTabs = document.querySelectorAll('.nav-tab');
-            
-            let currentSection = '';
-            
-            sections.forEach(sectionId => {
-                const element = document.getElementById(sectionId);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    if (rect.top <= 100 && rect.bottom >= 100) {
-                        currentSection = sectionId;
-                    }
-                }
-            });
-            
-            navTabs.forEach((tab, index) => {
-                tab.classList.remove('active');
-                if (sections[index] === currentSection) {
-                    tab.classList.add('active');
-                }
-            });
-        });
     </script>
 </body>
 </html>
