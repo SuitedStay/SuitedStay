@@ -20,53 +20,67 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
-          {/* Left: Logo & Pitch */}
-          <div className="lg:col-span-2">
-            <div className="font-display text-2xl font-bold mb-4">
+        {/* Force horizontal layout on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8 lg:gap-12">
+          {/* Left: Logo & Pitch - Takes 2 columns on large screens */}
+          <div className="lg:col-span-2 md:col-span-2">
+            <div className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
               SuitedStay
             </div>
-            <p className="text-gray-300 mb-6">
+            <p className="text-gray-300 mb-6 max-w-md">
               Curating the world's most exclusive luxury hotels for discerning travelers.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors">
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors" aria-label="Instagram">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors">
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors" aria-label="X (Twitter)">
                 <XIcon />
               </a>
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors">
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors" aria-label="TikTok">
                 <TikTokIcon />
               </a>
             </div>
           </div>
 
-          {/* Explore */}
-          <div>
-            <h3 className="font-semibold text-lg mb-6">Explore</h3>
+          {/* Explore Column */}
+          <div className="md:col-span-1">
+            <h3 className="font-semibold text-lg mb-6 text-white">Explore</h3>
             <ul className="space-y-4">
-              <li><a href="/hotels" className="text-gray-300 hover:text-white transition-colors">All Hotels</a></li>
+              <li>
+                <a href="/hotels" className="text-gray-300 hover:text-white transition-colors block">
+                  All Hotels
+                </a>
+              </li>
             </ul>
           </div>
 
-          {/* Partners */}
-          <div>
-            <h3 className="font-semibold text-lg mb-6">Partners</h3>
+          {/* Partners Column */}
+          <div className="md:col-span-1">
+            <h3 className="font-semibold text-lg mb-6 text-white">Partners</h3>
             <ul className="space-y-4">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Partnership Program</a></li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-white transition-colors block">
+                  Partnership Program
+                </a>
+              </li>
             </ul>
           </div>
 
-          {/* Support */}
-          <div>
-            <h3 className="font-semibold text-lg mb-6">Support</h3>
+          {/* Support Column */}
+          <div className="md:col-span-1">
+            <h3 className="font-semibold text-lg mb-6 text-white">Support</h3>
             <ul className="space-y-4">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-white transition-colors block">
+                  Privacy Policy
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
+        {/* Copyright */}
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
           <p>&copy; 2025 SuitedStay. All rights reserved.</p>
         </div>
