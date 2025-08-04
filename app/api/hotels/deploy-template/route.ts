@@ -9,6 +9,15 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY!
 )
 
+// Register Handlebars helpers
+Handlebars.registerHelper('contains', function(str, substring) {
+  return str && str.toString().includes(substring)
+})
+
+Handlebars.registerHelper('eq', function(a, b) {
+  return a === b
+})
+
 export async function POST(request: NextRequest) {
   try {
     const { hotel_id, slug } = await request.json()
