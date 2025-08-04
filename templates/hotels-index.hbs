@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{page_title}} | SuitedStay</title>
+    <meta name="description" content="{{page_subtitle}}">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <style>
+        .filter-chip:checked + label {
+            background: #10b981;
+            color: white;
+        }
+        
+        .score-pill {
+            background: #10b981;
+            color: white;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .price-indicator {
+            color: #c5a46d;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 1023px) {
+            .sidebar-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 40;
+            }
+            
+            .sidebar-panel {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 320px;
+                background: white;
+                z-index: 50;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar-panel.open {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div x-data="hotelFilter()" x-init="init()">
+        <!-- Header -->
+        <header class="bg-white border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <a href="/" class="text-2xl font-bold text-gray-900">
+                            Suited<span class="text-yellow-600">Stay</span>
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <a href="/claim" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                            List Your Property
+                        </a>
+                        <a href="/login" class="text-gray-600 hover:text-gray-900 text-sm font-medium">
+                            Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <nav class="flex text-sm text-gray-500" aria-label="Breadcrumb">
+                <a href="/" class="hover:text-gray-700">SuitedStay</a>
+                <span class="mx-2">/</span>
+                <a href="/places-to-stay" class="hover:text-gray-700">Places to Stay</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-900 font-medium">Hotels</span>
+            </nav>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Mobile Filter Button -->
+                <div class="lg:hidden">
+                    <button @click="showMobileFilters = true" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2 text-left flex items-center justify-between">
+                        <span class="font-medium">Filters</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707v4.586a1 1 0 01-.293.707L9 19.414a1 1 0 01-1.414 0L6 18.828a1 1 0 01-.293-.707V13.414a1 1 0 00-.293-.707L.293 7.293A1 1 0 010 6.586V4z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Mobile Sidebar Overlay -->
+                <template x-if="showMobileFilters">
+                    <div class="lg:hidden">
+                        <div class="sidebar-overlay" @click="showMobileFilters = false"></div>
+                        <div class="sidebar-panel open">
+                            <div class="p-6 h-full overflow-y-auto">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h2 class="text-lg font-semibold">Filters</h2>
+                                    <button @click="showMobileFilters = false" class="text-gray-400 hover:text-gray-600">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                
+                                <!-- Filter Content (Same as desktop) -->
+                                <div class="space-y-8">
+                                    <!-- Awards Filter -->
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900 mb-4">Awards</h3>
+                                        <div class="space-y-2">
+                                            <template x-for="award in availableAwards" :key="award">
+                                                <label class="flex items-center">
+                                                    <input type="checkbox" x-model="selectedAwards" :value="award" class="filter-chip sr-only">
+                                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border cursor-pointer transition-colors"
+                                                          :class="selectedAwards.includes(award) ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'"
+                                                          x-text="award"></span>
+                                                </label>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    <!-- Type of Hotels -->
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900 mb-4">Type of Hotels</h3>
+                                        <div class="space-y-2">
+                                            <template x-for="type in hotelTypes" :key="type">
+                                                <label class="flex items-center">
+                                                    <input type="checkbox" x-model="selectedTypes" :value="type" class="filter-chip sr-only">
+                                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border cursor-pointer transition-colors"
+                                                          :class="selectedTypes.includes(type) ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'"
+                                                          x-text="type"></span>
+                                                </label>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    <!-- Country Filter -->
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900 mb-4">Country</h3>
+                                        <select x-model="selectedCountry" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                                            <option value="">All Countries</option>
+                                            <template x-for="country in availableCountries" :key="country">
+                                                <option :value="country" x-text="country"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+
+                                    <!-- City Filter -->
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900 mb-4">City</h3>
+                                        <select x-model="selectedCity" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                                            <option value="">All Cities</option>
+                                            <template x-for="city in availableCities" :key="city">
+                                                <option :value="city" x-text="city"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+
+                                    <!-- Star Rating -->
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900 mb-4">Star Rating</h3>
+                                        <div class="space-y-2">
+                                            <template x-for="rating in starRatings" :key="rating.value">
+                                                <label class="flex items-center">
+                                                    <input type="checkbox" x-model="selectedStarRatings" :value="rating.value" class="filter-chip sr-only">
+                                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border cursor-pointer transition-colors"
+                                                          :class="selectedStarRatings.includes(rating.value) ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'"
+                                                          x-text="rating.label"></span>
+                                                </label>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    <!-- Price -->
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900 mb-4">Price</h3>
+                                        <div class="space-y-2">
+                                            <template x-for="price in priceRanges" :key="price">
+                                                <label class="flex items-center">
+                                                    <input type="checkbox" x-model="selectedPrices" :value="price" class="filter-chip sr-only">
+                                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border cursor-pointer transition-colors price-indicator"
+                                                          :class="selectedPrices.includes(price) ? 'bg-green-500 text-white border-green-500' : 'bg-white border-gray-300 hover:border-gray-400'"
+                                                          x-text="price"></span>
+                                                </label>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    <!-- Amenities -->
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900 mb-4">Amenities</h3>
+                                        <div class="space-y-2 max-h-48 overflow-y-auto">
+                                            <template x-for="amenity in availableAmenities" :key="amenity">
+                                                <label class="flex items-center">
+                                                    <input type="checkbox" x-model="selectedAmenities" :value="amenity" class="filter-chip sr-only">
+                                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border cursor-pointer transition-colors"
+                                                          :class="selectedAmenities.includes(amenity) ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'"
+                                                          x-text="amenity"></span>
+                                                </label>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Desktop Sidebar -->
+                <aside class="hidden lg:block w-80 flex-shrink-0">
+                    <div class="bg-white rounded-lg border border-gray-200 p-6 sticky top-4">
+                        <div class="space-y-8">
+                            <!-- Awards Filter -->
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-4">Awards</h3>
+                                <div class="space-y-2">
+                                    <template x-for="award in availableAwards" :key="award">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" x-model="selectedAwards" :value="award" class="filter-chip sr-only" aria-controls="hotelResults">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border cursor-pointer transition-colors"
+                                                  :class="selectedAwards.includes(award) ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'"
+                                                  x-text="award"></span>
+                                        </label>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Type of Hotels -->
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-4">Type of Hotels</h3>
+                                <div class="space-y-2">
+                                    <template x-for="type in hotelTypes" :key="type">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" x-model="selectedTypes" :value="type" class="filter-chip sr-only" aria-controls="hotelResults">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border cursor-pointer transition-colors"
+                                                  :class="selectedTypes.includes(type) ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'"
+                                                  x-text="type"></span>
+                                        </label>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Country Filter -->
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-4">Country</h3>
+                                <select x-model="selectedCountry" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" aria-controls="hotelResults">
+                                    <option value="">All Countries</option>
+                                    <template x-for="country in availableCountries" :key="country">
+                                        <option :value="country" x-text="country"></option>
+                                    </template>
+                                </select>
+                            </div>
+
+                            <!-- City Filter -->
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-4">City</h3>
+                                <select x-model="selectedCity" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" aria-controls="hotelResults">
+                                    <option value="">All Cities</option>
+                                    <template x-for="city in availableCities" :key="city">
+                                        <option :value="city" x-text="city"></option>
+                                    </template>
+                                </select>
+                            </div>
+
+                            <!-- Star Rating -->
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-4">Star Rating</h3>
+                                <div class="space-y-2">
+                                    <template x-for="rating in starRatings" :key="rating.value">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" x-model="selectedStarRatings" :value="rating.value" class="filter-chip sr-only" aria-controls="hotelResults">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border cursor-pointer transition-colors"
+                                                  :class="selectedStarRatings.includes(rating.value) ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'"
+                                                  x-text="rating.label"></span>
+                                        </label>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Price -->
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-4">Price</h3>
+                                <div class="space-y-2">
+                                    <template x-for="price in priceRanges" :key="price">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" x-model="selectedPrices" :value="price" class="filter-chip sr-only" aria-controls="hotelResults">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border cursor-pointer transition-colors price-indicator"
+                                                  :class="selectedPrices.includes(price) ? 'bg-green-500 text-white border-green-500' : 'bg-white border-gray-300 hover:border-gray-400'"
+                                                  x-text="price"></span>
+                                        </label>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Amenities -->
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-4">Amenities</h3>
+                                <div class="space-y-2 max-h-48 overflow-y-auto">
+                                    <template x-for="amenity in availableAmenities" :key="amenity">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" x-model="selectedAmenities" :value="amenity" class="filter-chip sr-only" aria-controls="hotelResults">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm border cursor-pointer transition-colors"
+                                                  :class="selectedAmenities.includes(amenity) ? 'bg-green-500 text-white border-green-500' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400'"
+                                                  x-text="amenity"></span>
+                                        </label>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="flex-1">
+                    <!-- Page Header -->
+                    <div class="mb-8">
+                        <h1 class="text-3xl font-bold text-gray-900 mb-2">{{page_title}}</h1>
+                        <p class="text-lg text-gray-600">{{page_subtitle}}</p>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="bg-white rounded-lg border border-gray-200 p-4 mb-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <!-- Results Count -->
+                            <div class="text-sm text-gray-600">
+                                <span x-text="filteredHotels.length"></span> hotels found
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <!-- Sort Selector -->
+                                <div class="flex items-center gap-2">
+                                    <label for="sort" class="text-sm font-medium text-gray-700">Sort:</label>
+                                    <select x-model="sortBy" id="sort" class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                                        <option value="rating_desc">Rating (High to Low)</option>
+                                        <option value="rating_asc">Rating (Low to High)</option>
+                                        <option value="name_asc">Name (A-Z)</option>
+                                        <option value="price_asc">Price (Low to High)</option>
+                                    </select>
+                                </div>
+
+                                <!-- Layout Toggle -->
+                                <div class="flex items-center gap-2">
+                                    <button @click="isCompact = false" 
+                                            :class="!isCompact ? 'bg-gray-200 text-gray-900' : 'text-gray-600 hover:text-gray-900'"
+                                            class="px-3 py-1 rounded text-sm font-medium transition-colors">
+                                        Spacious
+                                    </button>
+                                    <button @click="isCompact = true"
+                                            :class="isCompact ? 'bg-gray-200 text-gray-900' : 'text-gray-600 hover:text-gray-900'"
+                                            class="px-3 py-1 rounded text-sm font-medium transition-colors">
+                                        Compact
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hotel Grid -->
+                    <div id="hotelResults" 
+                         :class="isCompact ? 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4' : 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6'">
+                        <template x-for="hotel in sortedHotels" :key="hotel.id">
+                            <div @click="$dispatch('navigate', `/hotels/${hotel.slug}`)" class="cursor-pointer">
+                                {{> hotelCard hotel=this}}
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- No Results -->
+                    <div x-show="filteredHotels.length === 0" class="text-center py-12">
+                        <div class="text-gray-400 mb-4">
+                            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">No hotels found</h3>
+                        <p class="text-gray-600">Try adjusting your filters to see more results.</p>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function hotelFilter() {
+            return {
+                hotels: {{{JSON.stringify hotels}}},
+                filteredHotels: [],
+                sortedHotels: [],
+                showMobileFilters: false,
+                isCompact: false,
+                sortBy: 'rating_desc',
+                
+                // Filter states
+                selectedAwards: [],
+                selectedTypes: [],
+                selectedCountry: '',
+                selectedCity: '',
+                selectedStarRatings: [],
+                selectedPrices: [],
+                selectedAmenities: [],
+                
+                // Available filter options
+                availableAwards: [],
+                availableCountries: [],
+                availableCities: [],
+                availableAmenities: [],
+                hotelTypes: [
+                    'Beach Resorts',
+                    'Boutique Hotels',
+                    'Airport Hotels',
+                    'Serviced Apartments',
+                    'Budget Hotels'
+                ],
+                starRatings: [
+                    { value: 5, label: '★★★★★' },
+                    { value: 4, label: '★★★★' },
+                    { value: 3, label: '★★★' }
+                ],
+                priceRanges: ['$', '$$', '$$$', '$$$$'],
+                
+                init() {
+                    this.extractFilterOptions();
+                    this.filterHotels();
+                    
+                    // Watch for filter changes
+                    this.$watch('selectedAwards', () => this.filterHotels());
+                    this.$watch('selectedTypes', () => this.filterHotels());
+                    this.$watch('selectedCountry', () => {
+                        this.selectedCity = ''; // Reset city when country changes
+                        this.filterHotels();
+                    });
+                    this.$watch('selectedCity', () => this.filterHotels());
+                    this.$watch('selectedStarRatings', () => this.filterHotels());
+                    this.$watch('selectedPrices', () => this.filterHotels());
+                    this.$watch('selectedAmenities', () => this.filterHotels());
+                    this.$watch('sortBy', () => this.sortHotels());
+
+                    // Handle navigation
+                    this.$el.addEventListener('navigate', (e) => {
+                        window.location.href = e.detail;
+                    });
+                },
+                
+                extractFilterOptions() {
+                    const awards = new Set();
+                    const countries = new Set();
+                    const cities = new Set();
+                    const amenities = new Set();
+                    
+                    this.hotels.forEach(hotel => {
+                        // Extract awards from tags
+                        if (hotel.tags && Array.isArray(hotel.tags)) {
+                            hotel.tags.forEach(tag => {
+                                if (['Ultra-Luxury', 'Exceptional Experience', 'Best Value', 'Top Choice'].includes(tag)) {
+                                    awards.add(tag);
+                                }
+                            });
+                        }
+                        
+                        // Extract countries and cities
+                        if (hotel.country) countries.add(hotel.country);
+                        if (hotel.city) cities.add(hotel.city);
+                        
+                        // Extract amenities
+                        if (hotel.amenities && Array.isArray(hotel.amenities)) {
+                            hotel.amenities.forEach(amenity => amenities.add(amenity));
+                        }
+                    });
+                    
+                    this.availableAwards = Array.from(awards).sort();
+                    this.availableCountries = Array.from(countries).sort();
+                    this.availableCities = Array.from(cities).sort();
+                    this.availableAmenities = Array.from(amenities).sort();
+                },
+                
+                get availableCities() {
+                    if (!this.selectedCountry) {
+                        return Array.from(new Set(this.hotels.map(h => h.city).filter(Boolean))).sort();
+                    }
+                    return Array.from(new Set(
+                        this.hotels
+                            .filter(h => h.country === this.selectedCountry)
+                            .map(h => h.city)
+                            .filter(Boolean)
+                    )).sort();
+                },
+                
+                filterHotels() {
+                    this.filteredHotels = this.hotels.filter(hotel => {
+                        // Awards filter
+                        if (this.selectedAwards.length > 0) {
+                            const hasAward = this.selectedAwards.some(award => 
+                                hotel.tags && hotel.tags.includes(award)
+                            );
+                            if (!hasAward) return false;
+                        }
+                        
+                        // Types filter
+                        if (this.selectedTypes.length > 0) {
+                            const hasType = this.selectedTypes.some(type => 
+                                hotel.tags && hotel.tags.includes(type)
+                            );
+                            if (!hasType) return false;
+                        }
+                        
+                        // Country filter
+                        if (this.selectedCountry && hotel.country !== this.selectedCountry) {
+                            return false;
+                        }
+                        
+                        // City filter
+                        if (this.selectedCity && hotel.city !== this.selectedCity) {
+                            return false;
+                        }
+                        
+                        // Star rating filter
+                        if (this.selectedStarRatings.length > 0) {
+                            const starCount = hotel.star_rating_icons ? hotel.star_rating_icons.length : 0;
+                            if (!this.selectedStarRatings.includes(starCount)) return false;
+                        }
+                        
+                        // Price filter
+                        if (this.selectedPrices.length > 0) {
+                            if (!this.selectedPrices.includes(hotel.price_indicator)) return false;
+                        }
+                        
+                        // Amenities filter
+                        if (this.selectedAmenities.length > 0) {
+                            const hasAmenity = this.selectedAmenities.some(amenity => 
+                                hotel.amenities && hotel.amenities.includes(amenity)
+                            );
+                            if (!hasAmenity) return false;
+                        }
+                        
+                        return true;
+                    });
+                    
+                    this.sortHotels();
+                },
+                
+                sortHotels() {
+                    this.sortedHotels = [...this.filteredHotels].sort((a, b) => {
+                        switch (this.sortBy) {
+                            case 'rating_desc':
+                                return (parseFloat(b.overall_score) || 0) - (parseFloat(a.overall_score) || 0);
+                            case 'rating_asc':
+                                return (parseFloat(a.overall_score) || 0) - (parseFloat(b.overall_score) || 0);
+                            case 'name_asc':
+                                return (a.hotel_name || '').localeCompare(b.hotel_name || '');
+                            case 'price_asc':
+                                const priceOrder = { '$': 1, '$$': 2, '$$$': 3, '$$$$': 4 };
+                                return (priceOrder[a.price_indicator] || 0) - (priceOrder[b.price_indicator] || 0);
+                            default:
+                                return 0;
+                        }
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>
