@@ -27,9 +27,9 @@ const Header = () => {
 
   const goldColor = '#c5a46d'
 
-  // Mock search function for testing - replace with real API call
+  // Search hotels using the API
   const searchHotels = useCallback(async (searchQuery: string) => {
-    console.log('Searching for:', searchQuery) // Debug log
+    console.log('🔍 Searching for:', searchQuery)
     
     if (!searchQuery.trim()) {
       setSearchResults([])
@@ -39,50 +39,20 @@ const Header = () => {
     }
 
     setIsLoading(true)
-    setShowResults(true) // Show dropdown immediately
+    setShowResults(true)
     
     try {
-      // For debugging, let's use mock data first
-      const mockResults: SearchResult[] = [
-        {
-          id: '1',
-          hotel_name: 'The Ritz-Carlton Dubai',
-          city: 'Dubai',
-          country: 'UAE',
-          slug: 'ritz-carlton-dubai',
-          overall_score: 9.2
-        },
-        {
-          id: '2', 
-          hotel_name: 'Burj Al Arab Jumeirah',
-          city: 'Dubai',
-          country: 'UAE',
-          slug: 'burj-al-arab',
-          overall_score: 9.5
-        },
-        {
-          id: '3',
-          hotel_name: 'Atlantis The Palm',
-          city: 'Dubai', 
-          country: 'UAE',
-          slug: 'atlantis-palm',
-          overall_score: 8.8
-        }
-      ]
-
-      // Filter mock results based on query
-      const filteredResults = mockResults.filter(hotel => 
-        hotel.hotel_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        hotel.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        hotel.country.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500))
+      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`)
+      const data = await response.json()
       
-      setSearchResults(filteredResults)
-      console.log('Search results:', filteredResults) // Debug log
+      console.log('🔍 Search response:', data)
       
+      if (data.success) {
+        setSearchResults(data.results || [])
+      } else {
+        console.error('Search error:', data.error)
+        setSearchResults([])
+      }
     } catch (error) {
       console.error('Search error:', error)
       setSearchResults([])
@@ -105,7 +75,7 @@ const Header = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setQuery(value)
-    console.log('Input changed:', value) // Debug log
+    console.log('📝 Input changed:', value)
     
     if (value.trim()) {
       debouncedSearch(value)
@@ -117,7 +87,7 @@ const Header = () => {
 
   // Handle result click
   const handleResultClick = (slug: string) => {
-    console.log('Clicking result:', slug) // Debug log
+    console.log('🖱️ Clicking result:', slug)
     router.push(`/hotels/${slug}`)
     setQuery('')
     setShowResults(false)
@@ -127,13 +97,11 @@ const Header = () => {
   // Handle keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Focus on "/" key press
       if (e.key === '/' && !isFocused && document.activeElement?.tagName !== 'INPUT') {
         e.preventDefault()
         inputRef.current?.focus()
       }
       
-      // Blur on "Escape" key
       if (e.key === 'Escape') {
         setShowResults(false)
         setQuery('')
@@ -145,14 +113,11 @@ const Header = () => {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isFocused])
 
-  // Handle click outside - FIXED
+  // Handle click outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        // Delay hiding to allow clicks on results
-        setTimeout(() => {
-          setShowResults(false)
-        }, 100)
+        setTimeout(() => setShowResults(false), 100)
       }
     }
 
@@ -177,7 +142,7 @@ const Header = () => {
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <a href="/" className="text-xl font-bold text-gray-900">
+          <a href="/" className="text-xl font-bold text-gray-900 flex-shrink-0">
             Suited<span style={{ color: goldColor }}>Stay</span>
           </a>
 
@@ -187,7 +152,7 @@ const Header = () => {
               relative flex items-center h-10 bg-gray-50 border border-gray-200 rounded-full transition-all duration-200
               ${isFocused ? 'border-gray-400 bg-white shadow-sm' : 'hover:bg-gray-100'}
             `}>
-              {/* Search Icon with better spacing */}
+              {/* Search Icon */}
               <div className="pl-4 pr-3 flex-shrink-0">
                 <Search className="w-4 h-4 text-gray-400" />
               </div>
@@ -200,20 +165,19 @@ const Header = () => {
                 onChange={handleInputChange}
                 onFocus={() => {
                   setIsFocused(true)
-                  console.log('Input focused') // Debug log
+                  console.log('🎯 Input focused')
                 }}
                 onBlur={() => {
-                  // Delay blur to allow dropdown clicks
                   setTimeout(() => {
                     setIsFocused(false)
-                    console.log('Input blurred') // Debug log
+                    console.log('😴 Input blurred')
                   }, 200)
                 }}
                 placeholder="Search hotels"
                 className="flex-1 h-full bg-transparent border-none outline-none placeholder-gray-400 text-gray-900 text-sm focus:ring-0 px-2"
               />
 
-              {/* Keyboard Hint with better spacing */}
+              {/* Keyboard Hint */}
               {!isFocused && !query && (
                 <div className="pr-4 pl-3 flex-shrink-0">
                   <kbd className="inline-flex items-center px-1.5 py-0.5 text-xs font-medium text-gray-400 bg-gray-200 border border-gray-300 rounded">
@@ -223,13 +187,13 @@ const Header = () => {
               )}
             </div>
 
-            {/* Search Results Dropdown - ALWAYS VISIBLE WHEN showResults is true */}
+            {/* Search Results Dropdown */}
             {showResults && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-80 overflow-y-auto z-[60]">
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-xl max-h-80 overflow-y-auto z-[100]">
                 {isLoading ? (
                   <div className="p-4 text-center text-gray-500">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-400 mx-auto"></div>
-                    <p className="mt-2 text-sm">Searching...</p>
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-400 mx-auto mb-2"></div>
+                    <p className="text-sm">Searching...</p>
                   </div>
                 ) : searchResults.length > 0 ? (
                   <div className="py-2">
@@ -240,25 +204,21 @@ const Header = () => {
                       <div
                         key={hotel.id}
                         onClick={() => handleResultClick(hotel.slug)}
-                        className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-b-0"
+                        className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-b-0 transition-colors"
                       >
-                        <div className="flex items-center justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span className="text-blue-600 text-xs font-medium">Hotel</span>
-                              <div className="flex items-center text-gray-500">
-                                <MapPin className="w-3 h-3 mr-1" />
-                                <span className="text-xs">{hotel.city}, {hotel.country}</span>
-                              </div>
-                            </div>
-                            <h4 className="font-medium text-gray-900 text-sm">{hotel.hotel_name}</h4>
-                            <div className="flex items-center mt-1">
-                              <div className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded">
-                                {hotel.overall_score?.toFixed(1) || 'N/A'}
-                              </div>
-                              <span className="ml-2 text-xs text-green-600 font-medium">Open</span>
-                            </div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-blue-600 text-xs font-medium">Hotel</span>
+                          <div className="flex items-center text-gray-500">
+                            <MapPin className="w-3 h-3 mr-1" />
+                            <span className="text-xs">{hotel.city}, {hotel.country}</span>
                           </div>
+                        </div>
+                        <h4 className="font-medium text-gray-900 text-sm mb-1">{hotel.hotel_name}</h4>
+                        <div className="flex items-center">
+                          <div className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            {hotel.overall_score?.toFixed(1) || 'N/A'}
+                          </div>
+                          <span className="ml-2 text-xs text-green-600 font-medium">Open</span>
                         </div>
                       </div>
                     ))}
@@ -274,7 +234,7 @@ const Header = () => {
           </div>
 
           {/* Right Side Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 flex-shrink-0">
             <a href="/claim" className="bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors">
               List Your Property
             </a>

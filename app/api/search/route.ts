@@ -11,6 +11,8 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const query = searchParams.get('q')
 
+    console.log('Search API called with query:', query)
+
     if (!query || query.trim().length === 0) {
       return NextResponse.json({ 
         success: true, 
@@ -33,8 +35,10 @@ export async function GET(request: NextRequest) {
         success: false, 
         error: 'Search failed',
         results: [] 
-      })
+      }, { status: 500 })
     }
+
+    console.log('Search results found:', data?.length || 0)
 
     return NextResponse.json({ 
       success: true, 
