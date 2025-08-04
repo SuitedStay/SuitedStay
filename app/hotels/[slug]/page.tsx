@@ -34,6 +34,8 @@ export default async function HotelPage({ params }: { params: { slug: string } }
     .eq('slug', params.slug)
     .single()
 
+  console.log('Current overall_score from Supabase:', hotel?.overall_score)
+
   if (error || !hotel) {
     console.log('Hotel not found:', error)
     return <div style={{ padding: '2rem' }}>
@@ -54,14 +56,12 @@ export default async function HotelPage({ params }: { params: { slug: string } }
     console.warn('FAQ fetch error:', faqError)
   }
 
-  // Prepare template data with FAQs
-  // In app/hotels/[slug]/page.tsx, update the templateData:
-    const templateData = {
-  ...hotel,
-  faqs: faqs || [],
-  amenities: hotel.amenities ? (Array.isArray(hotel.amenities) ? hotel.amenities : hotel.amenities.split(',').map(item => item.trim())) : [],
-  google_maps_api_key: process.env.GOOGLE_MAPS_API_KEY
-}
+  const templateData = {
+    ...hotel,
+    faqs: faqs || [],
+    amenities: hotel.amenities ? (Array.isArray(hotel.amenities) ? hotel.amenities : hotel.amenities.split(',').map(item => item.trim())) : [],
+    google_maps_api_key: process.env.GOOGLE_MAPS_API_KEY
+  }
 
   // Read the Handlebars template
   const templatePath = path.join(process.cwd(), 'templates', 'hotel-template.hbs')
@@ -79,15 +79,11 @@ export default async function HotelPage({ params }: { params: { slug: string } }
   }
 
   const template = Handlebars.compile(templateSource)
-
-  // Render the template with hotel data + FAQs
   const htmlContent = template(templateData)
 
-  // Return the rendered HTML
   return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
 }
 
-// Generate metadata for SEO
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const supabase = createSupabaseClient()
   
@@ -97,15 +93,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
   }
 
-// In your page component, change the select query to:
-const { data: hotel, error } = await supabase
-  .from('hotels')
-  .select('*')
-  .eq('slug', params.slug)
-  .single()
-
-// Add this debug line right after fetching:
-console.log('Current overall_score from Supabase:', hotel?.overall_score)
+  const { data: hotel } = await supabase
+    .from('hotels')
+    .select('hotel_name, description')
+    .eq('slug', params.slug)
+    .single()
 
   if (!hotel) {
     return {
