@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { Instagram } from 'lucide-react'
 
 const Footer = () => {
@@ -21,9 +20,9 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-5 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Left: Logo & Pitch */}
-          <div className="md:col-span-2">
+          <div className="lg:col-span-2">
             <div className="font-display text-2xl font-bold mb-4">
               SuitedStay
             </div>
