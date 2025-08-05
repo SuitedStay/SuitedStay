@@ -4,7 +4,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{hotel_name}} - Luxury Hotel | SuitedStay</title>
-    <meta name="description" content="{{hotel_description}}">
+    <meta name="description" content="{{description}}">
+    
+    <!-- Enhanced Meta Tags -->
+    <meta name="keywords" content="{{hotel_name}}, luxury hotel, {{city}}, {{country}}, premium accommodation, boutique hotel">
+    <meta name="author" content="SuitedStay">
+    <link rel="canonical" href="https://suitedstay.com/hotels/{{slug}}">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{hotel_name}} - Luxury Hotel | SuitedStay">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:url" content="https://suitedstay.com/hotels/{{slug}}">
+    <meta property="og:site_name" content="SuitedStay">
+    {{#if hero_photo_url}}
+    <meta property="og:image" content="{{hero_photo_url}}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{hotel_name}} - Luxury Hotel">
+    {{/if}}
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{hotel_name}} - Luxury Hotel | SuitedStay">
+    <meta name="twitter:description" content="{{description}}">
+    {{#if hero_photo_url}}
+    <meta name="twitter:image" content="{{hero_photo_url}}">
+    {{/if}}
+    
+    <!-- Enhanced Hotel Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Hotel",
+        "name": "{{hotel_name}}",
+        "description": "{{description}}",
+        "url": "https://suitedstay.com/hotels/{{slug}}",
+        {{#if hero_photo_url}}
+        "image": "{{hero_photo_url}}",
+        {{/if}}
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "{{address}}",
+            "addressLocality": "{{neighbourhood}}",
+            "addressCountry": "{{country}}"
+        },
+        {{#if overall_score}}
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "{{overall_score}}",
+            "bestRating": "10",
+            "worstRating": "1",
+            "ratingCount": "1"
+        },
+        {{/if}}
+        {{#if phone_number}}
+        "telephone": "{{phone_number}}",
+        {{/if}}
+        {{#if website}}
+        "url": "{{website}}",
+        {{/if}}
+        "checkinTime": "{{check_in}}",
+        "checkoutTime": "{{check_out}}",
+        {{#if tags}}
+        "amenityFeature": [
+            {{#each tags}}
+            {
+                "@type": "LocationFeatureSpecification",
+                "name": "{{this}}"
+            }{{#unless @last}},{{/unless}}
+            {{/each}}
+        ],
+        {{/if}}
+        "priceRange": "{{price_indicator}}"
+    }
+    </script>
+    
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://suitedstay.com"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Hotels",
+                "item": "https://suitedstay.com/hotels"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{hotel_name}}",
+                "item": "https://suitedstay.com/hotels/{{slug}}"
+            }
+        ]
+    }
+    </script>
     
     <!-- FAQ Schema -->
     {{#if faq_1}}
@@ -69,6 +171,7 @@
     {{/if}}
     
     <style>
+        /* Your existing styles continue here... */
         * {
             margin: 0;
             padding: 0;
