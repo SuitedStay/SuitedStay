@@ -11,6 +11,8 @@ export default function PartnersPage() {
     setLoading(tierName)
     
     try {
+      console.log('Attempting checkout with priceId:', priceId) // Debug log
+      
       // Call your API endpoint to create a Stripe checkout session
       const response = await fetch('/api/checkout', {
         method: 'POST',
@@ -23,6 +25,11 @@ export default function PartnersPage() {
       })
 
       const data = await response.json()
+      console.log('Checkout response:', data) // Debug log
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Checkout failed')
+      }
 
       if (data.url) {
         // Redirect to Stripe Checkout
@@ -32,7 +39,7 @@ export default function PartnersPage() {
       }
     } catch (error) {
       console.error('Checkout error:', error)
-      alert('Something went wrong. Please try again.')
+      alert(`Error: ${error instanceof Error ? error.message : 'Something went wrong. Please try again.'}`)
       setLoading(null)
     }
   }
@@ -43,8 +50,83 @@ export default function PartnersPage() {
       monthlyPrice: 399,
       annualPrice: 2993, // 25% discount (9 months for price of 12)
       originalPrice: 799,
-      priceIdMonthly: 'price_1Rt4IF2Lnx5KeWpDmY5hmWY0', // Early Bird monthly
-      priceIdAnnual: 'price_1Rt4IF2Lnx5KeWpDmY5hmWY0', // Using monthly for now
+      priceIdMonthly: 'price_1RspGL2Lnx5KeWpDHeJTWxsv', // Early Bird TEST mode
+      priceIdAnnual: 'price_1RspGL2Lnx5KeWpDHeJTWxsv', // Using monthly for now
+      features: [
+        'First 50 properties only',
+        'Price locked forever',
+        'Full page customization',
+        'Direct booking links',
+        'Priority support',
+        'Advanced analytics',
+        'Lead generation forms',
+        'SEO optimization'
+      ],
+      popular: true,
+      limitedOffer: true,
+      spotsLeft: 47
+    },
+    {
+      name: 'Standard',
+      monthlyPrice: 799,
+      annualPrice: 5993, // 25% discount
+      priceIdMonthly: 'price_1RspHE2Lnx5KeWpDhqG2EJ2w', // Standard TEST mode
+      priceIdAnnual: 'price_1RspHE2Lnx5KeWpDhqG2EJ2w', // Using monthly for now
+      features: [
+        'Full page control',
+        'Direct booking integration',
+        'Premium badge',
+        'Analytics dashboard',
+        'Lead capture forms',
+        'Monthly performance reports',
+        'Priority in search results',
+        'API access'
+      ],
+      popular: false
+    }
+  ]
+
+  const handleCheckout = async (priceId: string | undefined, tierName: string) => {
+    if (!priceId) {
+      alert('Price configuration error. Please refresh and try again.')
+      return
+    }
+    
+    setLoading(tierName)
+    
+    try {
+      console.log('Attempting checkout with priceId:', priceId) // Debug log
+      
+      // Call your API endpoint to create a Stripe checkout session
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          priceId,
+        }),
+      })
+
+      const data = await response.json()
+      console.log('Checkout response:', data) // Debug log
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Checkout failed')
+      }
+
+      if (data.url) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.url
+      } else {
+        throw new Error('No checkout URL returned')
+      }
+    } catch (error) {
+      console.error('Checkout error:', error)
+      alert(`Error: ${error instanceof Error ? error.message : 'Something went wrong. Please try again.'}`)
+      setLoading(null)
+    }
+  }
       features: [
         'First 50 properties only',
         'Price locked forever',
