@@ -5,7 +5,11 @@ import { useState } from 'react'
 import { Search, MapPin } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-export default function GlobalSearchBar() {
+interface GlobalSearchBarProps {
+  onSearch?: (query: string) => void
+}
+
+export default function GlobalSearchBar({ onSearch }: GlobalSearchBarProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [location, setLocation] = useState('')
   const router = useRouter()
@@ -13,12 +17,17 @@ export default function GlobalSearchBar() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     
-    // Build search URL with query parameters
+    // If onSearch prop is provided, use it
+    if (onSearch) {
+      onSearch(searchQuery)
+      return
+    }
+    
+    // Otherwise, navigate to search results page
     const params = new URLSearchParams()
     if (searchQuery) params.append('q', searchQuery)
     if (location) params.append('location', location)
     
-    // Navigate to search results page (you can create this later)
     router.push(`/search?${params.toString()}`)
   }
 

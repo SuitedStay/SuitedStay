@@ -1,3 +1,4 @@
+// components/SearchWrapper.tsx
 'use client'
 
 import { useRouter } from 'next/navigation'
@@ -7,7 +8,8 @@ const SearchWrapper = () => {
   const router = useRouter()
 
   const handleSearch = (query: string) => {
-    if (query.trim()) {
+    // Navigate to search results with the query
+    if (query) {
       router.push(`/search?q=${encodeURIComponent(query)}`)
     }
   }
