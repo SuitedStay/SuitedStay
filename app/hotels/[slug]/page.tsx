@@ -56,3 +56,38 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     description: hotel.description,
   }
 }
+// Add this to your existing hotel page
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const supabase = createSupabaseClient()
+  
+  if (!supabase) {
+    return { title: 'Hotel Page' }
+  }
+
+  const { data: hotel } = await supabase
+    .from('hotels')
+    .select('hotel_name, description, address, hero_photo_url, overall_score, tags')
+    .eq('slug', params.slug)
+    .single()
+
+  if (!hotel) {
+    return { title: 'Hotel Not Found' }
+  }
+
+  return {
+    title: `${hotel.hotel_name} - Luxury Hotel | SuitedStay`,
+    description: hotel.description || `Experience luxury at ${hotel.hotel_name}. Verified by SuitedStay's hospitality experts.`,
+    openGraph: {
+      title: hotel.hotel_name,
+      description: hotel.description,
+      url: `https://suitedstay.com/hotels/${params.slug}`,
+      images: hotel.hero_photo_url ? [{ url: hotel.hero_photo_url }] : undefined,
+      type: 'website',
+    },
+    other: {
+      'hotel:name': hotel.hotel_name,
+      'hotel:address': hotel.address,
+      'hotel:rating': hotel.overall_score?.toString(),
+    }
+  }
+}
