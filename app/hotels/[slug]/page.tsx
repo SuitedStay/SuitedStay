@@ -1,93 +1,116 @@
+// app/hotels/[slug]/page.tsx
 import { createClient } from '@supabase/supabase-js'
 import { notFound } from 'next/navigation'
+import { Metadata } from 'next'
+import Handlebars from 'handlebars'
+import fs from 'fs'
+import path from 'path'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+// Create Supabase client with error handling
+function createSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
+  if (!supabaseUrl || !supabaseKey) {
+    console.error('Missing Supabase environment variables:', { supabaseUrl: !!supabaseUrl, supabaseKey: !!supabaseKey })
+    return null
+  }
+
+  return createClient(supabaseUrl, supabaseKey)
+}
+
+// Main page component
 export default async function HotelPage({ params }: { params: { slug: string } }) {
-  // Use the PRE-GENERATED HTML from your deploy-template API
+  const supabase = createSupabaseClient()
+  
+  if (!supabase) {
+    return <div style={{ padding: '2rem' }}>
+      <h1>Configuration Error</h1>
+      <p>Unable to connect to database</p>
+    </div>
+  }
+
+  // Fetch hotel data from Supabase
   const { data: hotel, error } = await supabase
     .from('hotels')
-    .select('generated_html, hotel_name, overall_score')
+    .select('*')
     .eq('slug', params.slug)
     .single()
 
   if (error || !hotel) {
-    notFound()
-  }
-
-  // DEBUG: Log what we got from Supabase
-  console.log('Hotel data:', { 
-    name: hotel.hotel_name, 
-    score: hotel.overall_score,
-    hasGeneratedHTML: !!hotel.generated_html 
-  })
-
-  // Use the pre-generated HTML if it exists
-  if (hotel.generated_html) {
-    return <div dangerouslySetInnerHTML={{ __html: hotel.generated_html }} />
-  }
-
-  // Fallback
-  return (
-    <div style={{ padding: '2rem' }}>
-      <h1>{hotel.hotel_name}</h1>
-      <p>Score: {hotel.overall_score}</p>
-      <p>No generated HTML found. Please regenerate the page.</p>
+    console.log('Hotel not found:', error)
+    return <div style={{ padding: '2rem' }}>
+      <h1>Hotel Not Found</h1>
+      <p>Slug: {params.slug}</p>
+      <p>Error: {error?.message || 'No data found'}</p>
     </div>
-  )
-}
-
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const { data: hotel } = await supabase
-    .from('hotels')
-    .select('hotel_name, description')
-    .eq('slug', params.slug)
-    .single()
-
-  if (!hotel) {
-    return { title: 'Hotel Not Found' }
   }
 
-  return {
-    title: `${hotel.hotel_name} - Luxury Hotel | SuitedStay`,
-    description: hotel.description,
+  // Read the Handlebars template
+  const templatePath = path.join(process.cwd(), 'templates', 'hotel-template.hbs')
+  
+  let templateSource
+  try {
+    templateSource = fs.readFileSync(templatePath, 'utf8')
+  } catch (err) {
+    console.error('Template file not found:', templatePath)
+    return <div style={{ padding: '2rem' }}>
+      <h1>Template Error</h1>
+      <p>Hotel: {hotel.name || hotel.hotel_name}</p>
+      <p>Template file not found at: {templatePath}</p>
+    </div>
   }
+
+  const template = Handlebars.compile(templateSource)
+
+  // Render the template with hotel data
+  const htmlContent = template(hotel)
+
+  // Return the rendered HTML
+  return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
 }
-// Add this to your existing hotel page
+
+// Generate metadata for SEO - ONLY ONE VERSION
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const supabase = createSupabaseClient()
   
   if (!supabase) {
-    return { title: 'Hotel Page' }
+    return {
+      title: 'Hotel Page - SuitedStay',
+      description: 'Luxury hotel listing on SuitedStay'
+    }
   }
 
   const { data: hotel } = await supabase
     .from('hotels')
-    .select('hotel_name, description, address, hero_photo_url, overall_score, tags')
+    .select('name, hotel_name, description, meta_title, meta_description')
     .eq('slug', params.slug)
     .single()
 
   if (!hotel) {
-    return { title: 'Hotel Not Found' }
+    return {
+      title: 'Hotel Not Found - SuitedStay',
+      description: 'The requested hotel could not be found.'
+    }
   }
 
+  // Use meta fields if available, otherwise fall back to regular fields
+  const title = hotel.meta_title || `${hotel.name || hotel.hotel_name} - Luxury Hotel | SuitedStay`
+  const description = hotel.meta_description || hotel.description || `Discover ${hotel.name || hotel.hotel_name} on SuitedStay - Premium luxury accommodation.`
+
   return {
-    title: `${hotel.hotel_name} - Luxury Hotel | SuitedStay`,
-    description: hotel.description || `Experience luxury at ${hotel.hotel_name}. Verified by SuitedStay's hospitality experts.`,
+    title,
+    description,
     openGraph: {
-      title: hotel.hotel_name,
-      description: hotel.description,
-      url: `https://suitedstay.com/hotels/${params.slug}`,
-      images: hotel.hero_photo_url ? [{ url: hotel.hero_photo_url }] : undefined,
+      title,
+      description,
       type: 'website',
+      siteName: 'SuitedStay',
     },
-    other: {
-      'hotel:name': hotel.hotel_name,
-      'hotel:address': hotel.address,
-      'hotel:rating': hotel.overall_score?.toString(),
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
     }
   }
 }
