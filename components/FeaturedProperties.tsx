@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react'
 import { Mail, MapPin, Star } from 'lucide-react'
 import { createClient } from '@supabase/supabase-js'
 
-// Create Supabase client
+// This will work on Vercel with your environment variables
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
+
 
 const FeaturedProperties = () => {
   const [hotels, setHotels] = useState<any[]>([])
