@@ -1,8 +1,15 @@
-import { mockData } from '../lib/mockData'
-
 const FeaturedDestinations = () => {
+  const destinations = [
+    { city: 'Tokyo', country: 'Japan', hotelCount: 47 },
+    { city: 'Paris', country: 'France', hotelCount: 62 },
+    { city: 'Dubai', country: 'UAE', hotelCount: 31 },
+    { city: 'New York', country: 'USA', hotelCount: 58 },
+    { city: 'London', country: 'UK', hotelCount: 73 },
+    { city: 'Singapore', country: 'Singapore', hotelCount: 29 }
+  ]
+
   return (
-    <section className="py-20">
+    <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -13,26 +20,26 @@ const FeaturedDestinations = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {mockData.destinations.map((destination, index) => (
-            <div 
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          {destinations.map((destination, index) => (
+            <a 
               key={index}
-              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group cursor-pointer"
+              href={`/destinations/${destination.city.toLowerCase()}`}
+              className="group cursor-pointer"
             >
-              <div className="aspect-[4/3] bg-gray-200 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="font-semibold text-lg">{destination.city}</h3>
-                  <p className="text-sm opacity-90">{destination.country}</p>
+              <div className="aspect-square bg-gray-200 rounded-xl mb-3 overflow-hidden">
+                <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-white text-3xl font-display">
+                    {destination.city[0]}
+                  </span>
                 </div>
               </div>
-              <div className="p-6">
-                <div className="text-2xl font-bold text-gray-900">
-                  {destination.hotelCount}
-                </div>
-                <div className="text-gray-600">Hotels</div>
-              </div>
-            </div>
+              <h3 className="font-semibold text-gray-900 group-hover:text-gray-600 transition-colors">
+                {destination.city}
+              </h3>
+              <p className="text-sm text-gray-600">{destination.country}</p>
+              <p className="text-xs text-gray-500 mt-1">{destination.hotelCount} Hotels</p>
+            </a>
           ))}
         </div>
       </div>
